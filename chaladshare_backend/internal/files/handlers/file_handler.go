@@ -130,11 +130,16 @@ func (h *FileHandler) UploadAvatar(c *gin.Context) {
 
 	fh, err := c.FormFile("file")
 	if err != nil {
+		fmt.Println("[UploadAvatar] FormFile error:", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาแนบรูปโปรไฟล์"})
 		return
 	}
 
+	fmt.Println("[UploadAvatar] filename:", fh.Filename, "size:", fh.Size)
+
 	ext := strings.ToLower(filepath.Ext(fh.Filename))
+	fmt.Println("[UploadAvatar] ext:", ext)
+
 	if ext != ".jpg" && ext != ".jpeg" && ext != ".png" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "รองรับเฉพาะ .jpg .jpeg .png"})
 		return
@@ -145,6 +150,7 @@ func (h *FileHandler) UploadAvatar(c *gin.Context) {
 	abs := filepath.Join(os.TempDir(), filename)
 
 	if err := c.SaveUploadedFile(fh, abs); err != nil {
+		fmt.Println("[UploadAvatar] SaveUploadedFile error:", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "ไม่สามารถบันทึกรูปโปรไฟล์ได้"})
 		return
 	}
@@ -152,16 +158,22 @@ func (h *FileHandler) UploadAvatar(c *gin.Context) {
 
 	st, err := service.NewSupabaseStorageFromEnv()
 	if err != nil {
+		fmt.Println("[UploadAvatar] NewSupabaseStorageFromEnv error:", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
 	objectPath := fmt.Sprintf("avatars/%d/%s", uid, filename)
+	fmt.Println("[UploadAvatar] objectPath:", objectPath)
+
 	publicURL, err := st.UploadLocalFile(c.Request.Context(), objectPath, abs)
 	if err != nil {
+		fmt.Println("[UploadAvatar] UploadLocalFile error:", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+
+	fmt.Println("[UploadAvatar] success publicURL:", publicURL)
 
 	c.JSON(http.StatusCreated, gin.H{
 		"avatar_url":     publicURL,

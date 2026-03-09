@@ -11,8 +11,7 @@ import Avatar from "../assets/default.png";
 import "../component/Profile.css";
 
 // const API_HOST = "http://localhost:8080";
-const API_URL =
-  process.env.REACT_APP_API_URL || "http://localhost:8080/api/v1";
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8080/api/v1";
 
 const FILE_BASE_URL = API_URL.replace(/\/api\/v1\/?$/, "");
 
@@ -138,8 +137,10 @@ const Profile = () => {
       if (avatarFile) {
         const fd = new FormData();
         fd.append("file", avatarFile);
+
         const res = await axios.post("/files/avatar", fd, {
-          headers: { "Content-Type": "multipart/form-data" },
+          withCredentials: true,
+          timeout: 30000,
         });
 
         avatarUrl = res?.data?.avatar_url || null;
