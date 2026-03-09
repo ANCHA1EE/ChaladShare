@@ -1,0 +1,215 @@
+/*หน้า Createpost.css ( โดย prefix )*/
+
+.create-page .create-post-container {
+  margin-left: 230px; /* มี sidebar ทางซ้าย */
+  padding: 30px 50px;
+  background-color: #f7f9fc;
+  min-height: 100vh;
+}
+
+.create-page .create-title {
+  color: #0070c0;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.create-page .create-form {
+  background: #fff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.create-page .form-group {
+  margin-bottom: 25px;
+}
+
+.create-page .form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.create-page .required {
+  color: red;
+  margin-left: 5px;
+}
+
+.create-page .title-row {
+  display: flex;
+  gap: 10px;
+}
+
+.create-page .title-row input {
+  flex: 1;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 15px;
+  outline: none;
+}
+
+.create-page .title-row select {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 15px;
+  background: #fff;
+}
+
+/* กล่องอัปโหลด */
+.create-page .upload-box {
+  border: 2px dashed #ff6584;
+  border-radius: 10px;
+  padding: 40px;
+  text-align: center;
+  cursor: pointer;
+  background-color: #fff8fa;
+  position: relative;
+}
+
+.create-page .upload-box input[type="file"] {
+  display: none;
+}
+
+.create-page .upload-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.create-page .upload-icon {
+  width: 60px;
+  opacity: 0.8;
+}
+
+.create-page .upload-label p {
+  margin-top: 10px;
+  font-weight: 500;
+  color: #555;
+}
+
+/* textarea */
+.create-page textarea {
+  width: 100%;
+  min-height: 120px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 15px;
+  outline: none;
+  resize: vertical;
+}
+
+/* input tag */
+.create-page input[type="text"] {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 15px;
+  outline: none;
+}
+
+/* ปุ่ม */
+.create-page .button-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.create-page .btn-cancel,
+.create-page .btn-submit {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 25px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.create-page .btn-cancel {
+  background: #fff;
+  border: 1px solid #ff6584;
+  color: #ff6584;
+}
+
+.create-page .btn-cancel:hover {
+  background: #ffeaf0;
+}
+
+.create-page .btn-submit {
+  background: #0070c0;
+  color: #fff;
+}
+
+.create-page .btn-submit:hover {
+  background: #005fa3;
+}
+/* ปรับปุ่มล้างไฟล์ + preview รูปหน้าปก + ชื่อไฟล์ */
+
+.create-page .create-clear-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 101, 132, 0.95);
+  color: #fff;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.create-page .create-clear-btn:hover {
+  filter: brightness(0.95);
+}
+
+/* ทำให้ของในกล่อง (ตอนอัปแล้ว) จัดกลางและมีระยะห่างสวยขึ้น */
+.create-page .upload-label {
+  gap: 12px;              /* เพิ่มระยะห่างระหว่างรูปกับชื่อไฟล์ */
+  padding: 6px 10px;      /* กันชื่อไฟล์ชนขอบ */
+}
+
+/* Preview ให้เต็มและสวยในกรอบ */
+.create-page .create-cover-preview {
+  width: min(520px, 92%);   /* ไม่หด/ไม่ล้น ตามขนาดกล่อง */
+  height: 200px;            /* สูงพอดีตา */
+  object-fit: cover;        /* ครอปให้สวย */
+  border-radius: 12px;
+  border: 1px solid #f0c2cd;
+  background: #fff;
+}
+
+/* จัดชื่อไฟล์ให้สวย + กันยาวเกิน */
+.create-page .upload-box .upload-label > span {
+  max-width: 92%;
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 14px;
+  text-align: center;
+
+  /* เลือกอย่างใดอย่างหนึ่ง:
+     - ถ้าชอบให้ตัด ... (สวย/ไม่รก) ใช้ 3 บรรทัดล่างนี้
+  */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  /* ถ้าบีมอยากให้ "ตัดบรรทัดได้" แทน ... ให้ลบ 3 บรรทัดบน แล้วใช้บรรทัดนี้แทน
+     word-break: break-word;
+  */
+}

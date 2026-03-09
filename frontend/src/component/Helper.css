@@ -1,0 +1,118 @@
+/* Layout */
+.helper-main {
+  flex: 1;
+  background: #ffffff;
+  padding: 48px 24px 80px;
+}
+
+.helper-wrap {
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+/* Header */
+.helper-header {
+  margin-bottom: 56px;
+}
+
+.helper-header h1 {
+  font-size: 30px;
+  font-weight: 700;
+  margin: 0 0 10px;
+  letter-spacing: -0.3px;
+}
+
+.helper-header p {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* Section */
+.helper-step {
+  margin-bottom: 80px;
+}
+
+/* Image */
+.step-figure {
+  margin: 0 0 20px;
+}
+
+.step-figure img {
+  width: 100%;
+  border-radius: 12px;
+  display: block;
+}
+
+.step-figure figcaption {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #888;
+}
+
+/* Title */
+.method-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0 0 12px;
+  letter-spacing: -0.2px;
+}
+
+/* Text */
+.step-desc {
+  font-size: 15px;
+  color: #444;
+  line-height: 1.8;
+  margin-bottom: 14px;
+}
+
+.step-list {
+  padding-left: 18px;
+  margin: 0 0 18px;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.7;
+}
+
+.step-list li {
+  margin-bottom: 6px;
+}
+
+/* Action (minimal highlight) */
+.step-actions {
+  margin-top: 8px;
+}
+
+.action-item {
+  padding-left: 12px;
+  border-left: 3px solid #111;
+}
+
+.action-label {
+  display: block;
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 4px;
+}
+
+.action-text {
+  font-size: 14px;
+  color: #111;
+  line-height: 1.7;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .helper-main {
+    padding: 32px 16px 60px;
+  }
+
+  .helper-header h1 {
+    font-size: 24px;
+  }
+
+  .method-title {
+    font-size: 19px;
+  }
+}

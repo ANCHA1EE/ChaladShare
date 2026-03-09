@@ -1,0 +1,32 @@
+services:
+    db:
+      image: pgvector/pgvector:pg17
+      container_name: chalad_share_postgres
+      environment:
+        POSTGRES_DB: ${POSTGRES_DB}
+        POSTGRES_USER: ${POSTGRES_USER}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+        - ./docker/init.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
+      ports:
+        - "${POSTGRES_PORT}:5432"
+      restart: unless-stopped
+  
+    pgadmin:
+      image: dpage/pgadmin4
+      container_name: chalad_share_pgadmin
+      environment:
+        PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+        PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      volumes:
+        - pgadmin_data:/var/lib/pgadmin
+      ports:
+        - "${PGADMIN_PORT}:80"
+      restart: unless-stopped
+      depends_on:
+        - db
+
+volumes:
+  postgres_data:
+  pgadmin_data:

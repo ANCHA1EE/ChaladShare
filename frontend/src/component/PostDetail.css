@@ -1,0 +1,258 @@
+:root {
+  --content-max: clamp(760px, 64vw, 1040px);
+}
+
+.post-detail-page {
+  display: flex;
+  width: 100%;
+  overflow-x: hidden; 
+}
+
+/* คอนเทนต์หลัง Sidebar */
+.post-detail {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  margin-left: 250px; 
+  background: #f9fbfc;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+
+/* ส่วนหัวโพสต์ (Back + Profile) */
+.post-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: var(--content-max);
+  gap: 15px;
+  margin-bottom: 25px;
+  padding-top: 10px;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e75480;
+  cursor: pointer;
+  font-size: 22px;
+  transition: 0.25s;
+  margin-right: 15px;
+  background: transparent;
+  border: none;
+}
+
+.back-btn:hover {
+  color: #ff7b9c;
+  transform: scale(1.1);
+}
+
+/* โปรไฟล์ผู้โพสต์ */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-details h4 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  color: #222;
+}
+
+.user-details .status {
+  margin: 0;
+  font-size: 14px;
+  color: #777;
+}
+
+/* การ์ดแสดง PDF/รูป (กลางหน้าจอ) */
+.post-image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 24px;
+  position: relative;
+  width: 100%;
+}
+
+.pdf-slide-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: var(--content-max);
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+  margin: 0 auto;
+  background: #fff;
+}
+
+/* PDF iframe */
+.pdf-frame {
+  width: 100%;
+  height: min(86vh, 1300px);
+  border: none;
+  display: block;
+}
+
+/* Footer ใต้ภาพ + ปุ่มไลก์/บันทึก */
+.post-footer {
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
+}
+
+/* แถวปุ่ม: ไลก์ซ้าย / ปุ่มอื่นขวา */
+.post-footer .actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 0 10px;
+}
+
+/* ไลก์ สไตล์เดียวกับการ์ด Home */
+.post-footer .likes {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.post-footer .likes span {
+  color: #000000;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+/* กล่องปุ่มด้านขวา */
+.post-footer .action-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ปุ่มบันทึก/แชร์ (เหมือน Home แต่ไม่ prefix) */
+.post-footer .icon-btn {
+  width: 29px;
+  height: 29px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform .1s ease, color .2s ease;
+}
+
+.post-footer .icon-btn svg {
+  font-size: 20px;
+  color: #000000;
+  pointer-events: none;
+}
+
+.post-footer .icon-btn:hover svg {
+  color: #000;
+  transform: scale(1.1);
+}
+
+/* สีตอนบันทึก */
+.post-footer .icon-btn.active svg {
+  color: #ffd500;               /* เหลือง */
+}
+
+
+/* เนื้อหาใต้ปุ่ม */
+.post-title {
+  text-align: left;
+  font-size: 20px;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 6px;
+}
+
+.description {
+  text-align: left;
+  font-size: 15px;
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+
+/* แท็ก */
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.tag {
+  background: #f2f2f2;
+  color: #555;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.tag:hover {
+  background: #e75480;
+  color: #fff;
+}
+
+/* Responsive */
+
+/* จอกว้างมาก */
+@media (min-width: 1600px) {
+  :root { --content-max: 1120px; }
+}
+
+/* Tablet / Laptop จอเล็ก */
+@media (max-width: 1024px) {
+  :root { --content-max: clamp(620px, 72vw, 880px); }
+  .post-detail { margin-left: 200px; padding: 30px 15px; }
+  .profile-img { width: 45px; height: 45px; }
+  .pdf-frame { height: min(80vh, 1100px); }
+}
+
+/* Tablet และมือถือแนวตั้ง */
+@media (max-width: 768px) {
+  :root { --content-max: 92vw; }
+  .post-detail {
+    margin-left: 0;
+    padding: 25px 10px;
+    align-items: center;
+  }
+  .post-header {
+    flex-wrap: wrap;
+    gap: 10px;
+    max-width: 92vw;
+  }
+  .profile-img { width: 42px; height: 42px; }
+  .pdf-frame { height: 70vh; }
+}
+
+/* มือถือจอเล็ก */
+@media (max-width: 480px) {
+  .profile-img { width: 38px; height: 38px; }
+  .post-title { font-size: 16px; }
+  .description { font-size: 13px; }
+  .pdf-frame { height: 66vh; }
+}

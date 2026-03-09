@@ -1,0 +1,80 @@
+/* Notification.css */
+
+/* สีอ่อน + ขอบ + เงานุ่ม */
+.nt-wrap{
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 9999;
+
+  min-width: 260px;
+  max-width: min(420px, 92vw);
+  padding: 12px 14px;
+  border-radius: 14px;
+
+  background: #ffffff;
+  color: #0f172a; /* ตัวหนังสือเข้มอ่านง่าย */
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  box-shadow: 0 12px 30px rgba(2, 6, 23, 0.12);
+
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  /* slide-in from right */
+  transform: translateX(120%);
+  opacity: 0;
+  animation: nt-in 260ms ease-out forwards;
+}
+
+/* ตอนออก (slide out to right + fade) */
+.nt-wrap.nt-leave{
+  animation: nt-out 220ms ease-in forwards;
+}
+
+@keyframes nt-in{
+  from { transform: translateX(120%); opacity: 0; }
+  to   { transform: translateX(0%);   opacity: 1; }
+}
+
+@keyframes nt-out{
+  from { transform: translateX(0%);   opacity: 1; }
+  to   { transform: translateX(120%); opacity: 0; }
+}
+
+.nt-msg{
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* ปุ่มปิด */
+.nt-x{
+  border: none;
+  background: transparent;
+  color: rgba(15, 23, 42, 0.65);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 10px;
+}
+
+.nt-x:hover{
+  background: rgba(15, 23, 42, 0.06);
+  color: rgba(15, 23, 42, 0.85);
+}
+
+/* แถบสีด้านซ้ายแบบนุ่ม ๆ */
+.nt-success{ border-left: 6px solid #34d399; } /* green-400 */
+.nt-error{   border-left: 6px solid #fb7185; } /* rose-400 */
+.nt-warning{ border-left: 6px solid #fbbf24; } /* amber-400 */
+.nt-info{    border-left: 6px solid #60a5fa; } /* blue-400 */
+
+/* (optional) เคารพ reduce motion */
+@media (prefers-reduced-motion: reduce){
+  .nt-wrap, .nt-wrap.nt-leave{
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}

@@ -1,0 +1,693 @@
+:root {
+  --primary: #027cbb;
+  --bg: #ffffff;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #6b7280;
+  --sidebar-width: 230px;
+}
+
+/* Layout  */
+.profile-page .profile-container {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+/* ปัญหาเกิดจาก CSS ของ layout ถูก fix ความสูงไว้เป็น 
+height: 100vh + overflow-y: scroll 
+ในบาง container ทำให้เวลา “ขยายหน้าจอ” 
+หรือ “ซูมออก” แล้วส่วนล่างโดนตัดและเลื่อนไม่สุดค่ะ */
+
+.profile-page .profile-content { 
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  padding: 32px 28px;
+  background: var(--bg);
+  /*  height: 100vh;  → ลบทิ้ง คือวิธีแก้ */
+  
+}
+
+
+.profile-page .profile-shell {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/*  Header */
+.profile-page .profile-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: var(--card);
+  border-radius: 0;
+  box-shadow: none;
+  padding: 28px 36px;
+  margin-bottom: 28px;
+  border: none;
+}
+
+.profile-page .profile-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid #e4e9f2;
+  object-fit: cover;
+}
+
+.profile-page .profile-info { flex: 1; }
+
+.profile-page .profile-toprow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.profile-page .profile-name {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ปุ่มแก้ไขโปรไฟล์  */
+.profile-page .profile-btn-edit{
+  margin-left: auto;
+
+  height: 34px;
+  padding: 0 18px;
+  border-radius: 999px;     
+  box-sizing: border-box;
+
+  background: transparent;  
+  color: #027CBB;
+  border: 2px solid #027CBB;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: background .15s ease, transform .08s ease, filter .15s ease;
+}
+
+.profile-page .profile-btn-edit:hover{
+  background: rgba(2,124,187,.08); /* hover จางๆ */
+}
+
+
+.profile-page .profile-bio {
+  color: var(--muted);
+  margin: 4px 0 10px;
+  font-size: 15px;
+}
+
+.profile-page .profile-stats {
+  display: flex;
+  gap: 28px;
+  color: #334155;
+  font-weight: 500;
+}
+
+/* Tabs */
+.profile-page .profile-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 22px;
+}
+
+.profile-page .profile-tabs-track {
+  position: relative;
+  display: inline-flex;
+  gap: 40px;
+  background: transparent;
+  padding: 8px 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.profile-page .profile-tab {
+  position: relative;
+  padding: 10px 0;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.profile-page .profile-tab:hover,
+.profile-page .profile-tab.active { color: var(--primary); }
+
+.profile-page .profile-tab::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -2px;
+  height: 3px;
+  background: var(--primary);
+  border-radius: 999px;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.25s ease;
+}
+.profile-page .profile-tab.active::after { transform: scaleX(1); }
+.profile-page .profile-tab:hover::after {
+  transform: scaleX(0.6);
+  opacity: 0.6;
+}
+
+/* Body / Card  */
+.profile-page .profile-body {
+  background: transparent;
+  padding-top: 10px;
+}
+
+.profile-page .profile-msg {
+  text-align: center;
+  color: var(--text);
+  font-size: 15px;
+  padding: 50px 0;
+}
+.profile-page .profile-msg.error { color: red; }
+.profile-page .profile-msg.muted { color: var(--muted); }
+
+.profile-page .card-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .profile-page .profile-content { margin-left: 0; padding: 20px; }
+  .profile-page .profile-header {
+    flex-direction: column; align-items: center; text-align: center;
+  }
+  .profile-page .profile-stats { justify-content: center; }
+  .profile-page .profile-tabs { justify-content: center; }
+  .profile-page .card-list { justify-content: center; }
+}
+
+/* Card */
+.profile-page .card {
+  width: 350px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0px 2px 5px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+  position: relative;           
+}
+.profile-page .card:hover { transform: translateY(-5px); }
+
+/* Toast ฟ้า ๆ เหมือนหน้า Home */
+.profile-page .mini-toast {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(124, 220, 255, 0.95);
+  color: #000000;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 15px;
+  pointer-events: none;
+  z-index: 20;
+  animation: cs-fadeInOut 3s ease;
+}
+
+.profile-page .card .card-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  display: block;
+}
+
+.profile-page .card-body { padding: 10px; }
+.profile-page .card-body h4 { font-size: 15px; margin: 5px 0; }
+.profile-page .card-body p { font-size: 12px; color: #555; }
+
+.profile-page .card-header,
+.profile-page .card-footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  padding: 8px 12px;
+  width: 100%;
+}
+
+.profile-page .card-header .author-img,
+.profile-page .card-footer .author-img {
+  width: 40px; height: 40px; border-radius: 50%;
+  object-fit: cover; margin: 0; padding: 0; flex-shrink: 0;
+}
+
+.profile-page .card-header span,
+.profile-page .card-footer span {
+  margin-left: 5px; padding: 0; text-align: left;
+}
+
+/* Likes & Actions */
+.profile-page .likes {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 16px; margin-top: 20px;
+}
+.profile-page .likes span { color: #000; }
+
+.profile-page .actions-row {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 10px;
+}
+.profile-page .action-right { display: flex; align-items: center; gap: 8px; }
+
+.profile-page .icon-btn {
+  width: 29px; height: 29px; margin-top: 20px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: none; background: transparent; border-radius: 10px;
+  cursor: pointer; transition: transform .1s ease, color .2s ease;
+}
+.profile-page .icon-btn svg { font-size: 20px; color: #000; }
+.profile-page .icon-btn:hover svg { color: #000; transform: scale(1.1); }
+.profile-page .icon-btn.active svg { color: #ffd500; }
+
+.profile-page .card-list {
+  display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .profile-page .card { width: 100%; max-width: 350px; }
+}
+
+/* แก้ไข / ลบโพสต์ */
+
+.profile-page .profile-card-wrapper {
+  width: 350px;                 /* กว้างเท่าการ์ดเดิม */
+  max-width: 350px;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0px 2px 5px rgba(0,0,0,0.05);
+  overflow: hidden;             /* ให้ขอบบน-ล่างโค้งต่อเนื่อง */
+  display: flex;
+  flex-direction: column;
+}
+
+/* card ด้านในให้เป็นแค่ส่วน content บน ไม่ต้องมีกรอบของตัวเองแล้ว */
+.profile-page .profile-card-wrapper .card {
+  width: 100%;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;             /* ขอบบนจะใช้จาก wrapper แทน */
+}
+
+
+.profile-page .profile-manage-row {
+  display: flex;
+  justify-content: flex-end;   /* ปุ่มชิดขวา flex-end;  */
+  gap: 10px;
+  padding: 0px 16px 16px;
+  background: #ffffff;
+  border: none;                 /* ไม่ให้มีกรอบเกินจากการ์ด */
+  border-radius: 0 0 12px 12px; /* ให้โค้งเหมือนขอบล่างการ์ด */
+  margin-top: 0;                /* ไม่ดึงขึ้น ไม่ล้นจากการ์ด */
+}
+
+
+.profile-page .profile-manage-btn {
+  min-width: 88px;
+  height: 32px;
+  padding: 4px 18px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease,
+    box-shadow 0.15s ease, transform 0.08s ease;
+}
+
+.profile-page .profile-manage-btn svg {
+  font-size: 15px;
+}
+
+/* ปุ่มแก้ไข: ขาว ขอบชมพู */
+.profile-page .profile-manage-btn-edit {
+  background: #ffffff;
+  border: 1.5px solid #ff4b8a;
+  color: #ff4b8a;
+}
+
+/* ปุ่มลบ: ชมพูทึบ ตัวอักษรขาว */
+.profile-page .profile-manage-btn-delete {
+  background: #ff4b8a;
+  border: 1.5px solid #ff4b8a;
+  color: #ffffff;
+}
+
+.profile-page .profile-manage-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.12);
+}
+
+.profile-page .profile-manage-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Edit Profile Card */
+.profile-page .edit-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  padding: 28px;
+  margin: -6px 0 26px;
+}
+
+.profile-page .edit-grid {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 28px;
+}
+
+.profile-page .edit-avatar-col {
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+}
+.profile-page .edit-avatar {
+  width: 130px; height: 130px; border-radius: 50%;
+  object-fit: cover; border: 3px solid #e4e9f2;
+}
+.profile-page .edit-upload-btn {
+  display: inline-block; padding: 8px 14px;
+  background: #f6f9ff; color: #0f172a;
+  border: 1px solid #d0e3fa; border-radius: 12px;
+  font-weight: 500; cursor: pointer; transition: all .15s ease;
+}
+.profile-page .edit-upload-btn:hover { background: #e7f2ff; }
+
+.profile-page .edit-form-col { display: flex; flex-direction: column; gap: 14px; }
+.profile-page .edit-subtitle { margin: 6px 0 0; font-size: 16px; color: #0f172a; }
+
+.profile-page .edit-2col {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+}
+.profile-page .edit-field { display: flex; flex-direction: column; gap: 6px; }
+.profile-page .edit-field label { font-size: 14px; color: #334155; }
+
+.profile-page .edit-field input,
+.profile-page .edit-field textarea {
+  border: 1px solid #dbe3ee; background: #fff;
+  border-radius: 10px; padding: 10px 12px; font-size: 14px; outline: none;
+}
+.profile-page .edit-field input:focus,
+.profile-page .edit-field textarea:focus {
+  border-color: #9cc8ff;
+  box-shadow: 0 0 0 3px rgba(0, 153, 255, .1);
+}
+
+
+.profile-page .edit-actions {
+  display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px;
+}
+.profile-page .btn-cancel {
+  background: #eef2f6; color: #0f172a; border: 1px solid #cfd8e3;
+  padding: 10px 16px; border-radius: 10px; cursor: pointer;
+}
+.profile-page .btn-cancel:hover { background: #e6ebf2; }
+.profile-page .btn-save {
+  background: #027cbb; color: #fff; border: none;
+  padding: 10px 18px; border-radius: 10px; cursor: pointer;
+  box-shadow: 0 4px 10px rgba(2, 124, 187, .25);
+}
+.profile-page .btn-save:hover { filter: brightness(1.05); }
+.profile-page .edit-error { color: #b00020; font-size: 14px; }
+
+/* NEW: แถว “รหัสผ่านปัจจุบัน” + ลิงก์ลืมรหัสผ่าน (ชิดขวา) */
+.profile-page .edit-row{
+  display: flex;
+  align-items: flex-end;           /* ให้ฐานเสมอกับ input */
+  gap: 14px;
+}
+.profile-page .edit-field.flex-1{  /* ช่องรหัสผ่านปัจจุบันกินพื้นที่ซ้ายทั้งหมด */
+  flex: 1;
+}
+.profile-page .forgot-link{
+  margin-left: auto;               /* ดันไปชิดขวาสุด */
+  background: transparent;
+  border: none;
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 0;
+  line-height: 1;
+  text-decoration: none;
+}
+.profile-page .forgot-link:hover{
+  text-decoration: underline;
+  filter: brightness(1.05);
+}
+.profile-page .forgot-link:focus{
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(2,124,187,.18);
+  border-radius: 6px;
+}
+/* ==== NEW: Password visibility controls (eye toggle) ==== */
+.profile-page .pw-field{
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.profile-page .pw-input{
+  width: 100%;
+  padding-right: 40px;          /* เผื่อที่ให้ปุ่มตา */
+  height: 40px;                 /* ให้สูงพอดีกับฟอร์ม */
+  box-sizing: border-box;
+}
+
+.profile-page .pw-toggle{
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;               /* เทาอ่อน */
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.profile-page .pw-toggle svg{
+  font-size: 18px;
+  pointer-events: none;         /* คลิกโดนปุ่ม ไม่โดนไอคอน */
+}
+
+.profile-page .pw-toggle:hover{ color: #0f172a; }
+.profile-page .pw-toggle:focus{
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(2,124,187,.18);
+}
+
+/* ทำให้ layout ของแถว “รหัสผ่านปัจจุบัน + ลืมรหัสผ่าน?” ชิดฐานเท่ากัน */
+.profile-page .edit-row{
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+}
+.profile-page .edit-field.flex-1{ flex: 1; }
+
+/* ===== Profile: Follow / Friend buttons (ONLY 2 buttons) ===== */
+.profile-page .profile-actions {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* shared button base */
+.profile-page .btn-follow,
+.profile-page .btn-friend {
+  height: 34px;
+  padding: 0 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.08s ease, filter 0.15s ease, background 0.15s ease,
+    color 0.15s ease, border-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.profile-page .btn-follow:active,
+.profile-page .btn-friend:active {
+  transform: translateY(1px);
+}
+
+/* --- FOLLOW (Figma: blue filled) --- */
+.profile-page .btn-follow {
+  background: #ffffff;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.profile-page .btn-follow:hover {
+  filter: brightness(0.96);
+}
+
+/* FOLLOWING state*/
+.profile-page .btn-follow.is-following {
+  background: #ffffff;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+
+/* --- FRIEND (Figma: green outline) --- */
+.profile-page .btn-friend {
+  background: #ffffff;
+  color: #22c55e;
+  border: 2px solid #22c55e;
+}
+
+.profile-page .btn-friend:hover {
+  filter: brightness(0.98);
+}
+
+/* requested / friends -> disabled look greyed  */
+.profile-page .btn-friend.is-requested,
+.profile-page .btn-friend:disabled {
+  background: #f3f4f6;
+  color: #9ca3af;
+  border-color: #e5e7eb;
+  cursor: not-allowed;
+  transform: none;
+  filter: none;
+}
+
+/* สถานะเป็นเพื่อนแล้ว  */
+.profile-page .btn-friend.is-friends {
+  color: #22c55e;
+  border: 1px solid #22c55e;
+  cursor: pointer;
+}
+
+.btn-friend.is-incoming {
+  background: #f3f4f6;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+}
+
+.btn-friend.is-incoming:hover {
+  background: #e5e7eb;
+  color: #4b5563;
+  border-color: #cbd5e1;
+}
+
+/* ===== Friend button states ===== */
+.btn-friend {
+  position: relative;
+}
+
+/* idle = เขียว (ถ้าของเดิมมีอยู่แล้ว อันนี้จะทับตามลำดับในไฟล์) */
+.btn-friend {
+  background: #22c55e;
+  color: #fff;
+}
+
+/* Dropdown */
+.friend-dropdown-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.friend-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 180px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  padding: 6px;
+  z-index: 50;
+}
+
+.friend-dropdown-item {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 10px 12px;
+  text-align: left;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.friend-dropdown-item:hover {
+  background: #f3f4f6;
+}
+
+.friend-dropdown-item.danger {
+  color: #dc2626;
+}
+
+/* ปรับบนจอเล็ก */
+@media (max-width: 860px){
+  .profile-page .pw-input{ height: 38px; }
+}
+
+/* Responsive */
+@media (max-width: 860px) {
+  .profile-page .edit-grid { grid-template-columns: 1fr; }
+  .profile-page .edit-avatar-col { flex-direction: row; justify-content: center; }
+  .profile-page .forgot-link{ padding: 10px 0; }
+}
+
+.modal-overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.modal-card{
+  width: min(420px, 92vw);
+  background: #fff;
+  border-radius: 12px;
+  padding: 18px 18px 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+}
+.modal-title{ margin: 0 0 8px; font-size: 18px; }
+.modal-desc{ margin: 0 0 16px; color: #444; }
+.modal-actions{
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+.modal-btn{
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid #c4c3c3;
+  background: #fff;
+  cursor: pointer;
+}
+.modal-btn.danger{
+  background: #ff4b8a;
+  border: 1.5px solid #ff4b8a;
+  color: #ffffff;
+}

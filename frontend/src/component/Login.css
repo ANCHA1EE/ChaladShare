@@ -1,0 +1,196 @@
+/* Login.css (รองรับทั้งหน้า login / register) */
+
+.login-container,
+.register-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.login-page,
+.register-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.login-page .login-box,
+.register-page .login-box {
+  background-color: white;
+  padding: 2rem 2.5rem;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  width: 380px;
+  text-align: center;
+
+  position: relative; /* ✅ เพิ่มบรรทัดนี้ */
+
+}
+
+/* logo */
+.login-page .login-box img,
+.register-page .login-box img {
+  width: 160px;
+  height: auto;
+  margin: 0 auto 10px auto;
+  display: block;
+}
+
+.login-page .login-box h2,
+.register-page .login-box h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #000;
+  font-weight: 700;
+}
+
+.login-page .input-group,
+.register-page .input-group {
+  position: relative;
+  width: 75%;
+  margin-bottom: 15px;
+}
+
+.login-page .input-group input,
+.register-page .input-group input {
+  width: 100%;
+  padding: 12px 45px;
+  /* padding เผื่อทั้งซ้าย-ขวา */
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 14px;
+  background-color: #f7f8fa;
+  /* สีอ่อนคล้ายตัวอย่าง */
+  outline: none;
+  transition: border 0.2s;
+}
+
+.login-page .input-group .icon,
+.register-page .input-group .icon {
+  border-color: #027cbb;
+  background-color: #fff;
+}
+
+/* icon ซ้าย*/
+.login-page .input-group .icon,
+.register-page .input-group .icon {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 18px;
+  pointer-events: none;
+}
+
+/* iconขวา รูปตา*/
+.login-page .input-group .icon-right,
+.register-page .input-group .icon-right {
+  position: absolute;
+  top: 50%;
+  right: -60px;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 9999 !important;
+
+  /* Prefix เพื่อให้แสดงถูกต้องทุก browser */
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+}
+
+/* ปุ่ม login/register */
+/* ✅ ปุ่มหลัก (submit) เท่านั้น */
+.login-page .login-box button[type="submit"],
+.register-page .login-box button[type="submit"]{
+  width: 100%;
+  padding: 0.7rem;
+  margin-top: 10px;
+  background-color: #027cbb;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+
+.login-page .login-box button[type="submit"]:hover,
+.register-page .login-box button[type="submit"]:hover{
+  background-color: #026ba5;
+}
+
+
+/* ---- ลืมรหัสผ่าน (เฉพาะหน้า Login) ---- */
+.login-page .forgot-password {
+  width: 100%;
+  /* ให้เท่ากับ input-group */
+  text-align: right;
+  /* ชิดขวา */
+}
+
+.login-page .forgot-password a {
+  color: #026ba5;
+  font-size: 16px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.login-page .forgot-password a:hover {
+  text-decoration: underline;
+}
+
+/* มีบัญชีแล้ว + สมัครสมาชิก / เข้าสู่ระบบ  */
+.login-page .ClickToRegis,
+.register-page .ClickToRegis {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+}
+
+.login-page .ClickToRegis p,
+.register-page .ClickToRegis p {
+  margin: 0 5px 0 0;
+  color: #444;
+}
+
+.login-page .ClickToRegis a,
+.register-page .ClickToRegis a {
+  color: #027cbb;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-page .ClickToRegis a:hover,
+.register-page .ClickToRegis a:hover {
+  text-decoration: underline;
+}
+
+/* ปิดไอคอนแสดงรหัสผ่านที่ Edge หรือ Chrome ใส่มาเอง */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear,
+input[type="password"]::-webkit-credentials-auto-fill-button,
+input[type="password"]::-webkit-password-toggle-button {
+  display: none !important;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.login-page .login-box .back-circle-btn{
+  position:absolute; top:18px; left:20px;
+  width:34px; height:34px; border-radius:50%;
+  border:2px solid #ff3b7a; background:#fff;
+  display:flex; align-items:center; justify-content:center;
+  padding:0; cursor:pointer;
+}
+.login-page .login-box .back-circle-btn svg{ color:#ff3b7a; font-size:18px; }
+.login-page .login-box .back-circle-btn:hover{ background:#fff0f6; transform:translateY(-1px); }
