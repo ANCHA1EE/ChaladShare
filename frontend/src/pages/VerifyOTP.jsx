@@ -155,7 +155,7 @@ export default function VerifyOTP() {
 
       await axios.post(url, body, {
         headers: { "Content-Type": "application/json" },
-        withCredentials: false,
+        withCredentials: true,
         timeout: 15000,
       });
 
@@ -200,7 +200,7 @@ export default function VerifyOTP() {
           { email: email.trim().toLowerCase(), otp: otpNow },
           {
             headers: { "Content-Type": "application/json" },
-            withCredentials: false,
+            withCredentials: true,
             timeout: 15000,
           }
         );
@@ -225,7 +225,7 @@ export default function VerifyOTP() {
         { email: email.trim().toLowerCase(), otp: otpNow },
         {
           headers: { "Content-Type": "application/json" },
-          withCredentials: false,
+          withCredentials: true,
           timeout: 15000,
         }
       );
@@ -258,7 +258,7 @@ export default function VerifyOTP() {
         },
         {
           headers: { "Content-Type": "application/json" },
-          withCredentials: false,
+          withCredentials: true,
           timeout: 15000,
         }
       );

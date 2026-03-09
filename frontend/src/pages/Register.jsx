@@ -185,7 +185,7 @@ const Register = () => {
         { email, username },
         {
           headers: { "Content-Type": "application/json" },
-          withCredentials: false,
+          withCredentials: true,
           timeout: 15000,
         }
       );
