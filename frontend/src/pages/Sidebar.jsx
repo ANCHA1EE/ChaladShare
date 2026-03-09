@@ -9,7 +9,7 @@ import axios from "axios";
 import "../component/Sidebar.css";
 import logo from "../assets/logo.png";
 
-const API_HOST = "http://localhost:8080/api/v1";
+// const API_HOST = "http://localhost:8080/api/v1";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -40,7 +40,8 @@ const Sidebar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(`${API_HOST}/auth/logout`, {}, { withCredentials: true });
+      // await axios.post(`${API_HOST}/auth/logout`, {}, { withCredentials: true });
+      await axios.post("auth/logout", {}, { withCredentials: true });
     } catch (err) {
       console.log("logout error:", err);
     } finally {

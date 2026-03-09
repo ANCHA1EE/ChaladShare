@@ -10,14 +10,17 @@ import Footer from "../component/Footer";
 import picdefault from "../assets/default.png";
 import "../component/Friends.css";
 
-const API_HOST = "http://localhost:8080";
-// const API_ORIGIN = process.env.REACT_APP_API_ORIGIN || window.location.origin;
+// const API_HOST = "http://localhost:8080";
+const API_URL =
+  process.env.REACT_APP_API_URL || "http://localhost:8080/api/v1";
+
+const FILE_BASE_URL = API_URL.replace(/\/api\/v1\/?$/, "");
 
 const toAbsUrl = (p) => {
   if (!p) return "";
   if (p.startsWith("http")) return p;
   const clean = p.replace(/^\.\//, "").replace(/^\./, "");
-  return `${API_HOST}${clean.startsWith("/") ? clean : `/${clean}`}`;
+  return `${FILE_BASE_URL}${clean.startsWith("/") ? clean : `/${clean}`}`;
 };
 
 const Friends = () => {

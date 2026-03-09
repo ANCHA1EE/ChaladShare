@@ -6,7 +6,7 @@ import axios from "axios";
 import bg from "../assets/bg.jpg";
 import "../component/AuthReset.css";
 
-const API_ORIGIN = process.env.REACT_APP_API_ORIGIN || "http://localhost:8080";
+// const API_ORIGIN = process.env.REACT_APP_API_ORIGIN || "http://localhost:8080";
 const OTP_TTL_SECONDS = 180;
 
 const pad2 = (n) => String(n).padStart(2, "0");
@@ -148,8 +148,10 @@ export default function VerifyOTP() {
       const body = { email: email.trim().toLowerCase() };
       const url =
         mode === "register"
-          ? `${API_ORIGIN}/api/v1/auth/register/request-otp`
-          : `${API_ORIGIN}/api/v1/auth/forgot-password`;
+          // ? `${API_ORIGIN}/api/v1/auth/register/request-otp`
+          // : `${API_ORIGIN}/api/v1/auth/forgot-password`;
+          ? "auth/register/request-otp"
+          : "auth/forgot-password";
 
       await axios.post(url, body, {
         headers: { "Content-Type": "application/json" },
@@ -186,7 +188,8 @@ export default function VerifyOTP() {
 
       if (mode === "forgot") {
         await axios.post(
-          `${API_ORIGIN}/api/v1/auth/forgot-password/verify-otp`,
+          // `${API_ORIGIN}/api/v1/auth/forgot-password/verify-otp`,
+          "auth/forgot-password/verify-otp",
           { email: email.trim().toLowerCase(), otp: otpNow },
           { headers: { "Content-Type": "application/json" }, timeout: 15000 }
         );
@@ -199,7 +202,8 @@ export default function VerifyOTP() {
       }
 
       const confirmRes = await axios.post(
-        `${API_ORIGIN}/api/v1/auth/register/confirm-otp`,
+        // `${API_ORIGIN}/api/v1/auth/register/confirm-otp`,
+        "auth/register/confirm-otp",
         { email: email.trim().toLowerCase(), otp: otpNow },
         { headers: { "Content-Type": "application/json" }, timeout: 15000 }
       );
@@ -211,7 +215,8 @@ export default function VerifyOTP() {
       }
 
       await axios.post(
-        `${API_ORIGIN}/api/v1/auth/register`,
+        // `${API_ORIGIN}/api/v1/auth/register`,
+        "auth/register",
         {
           email: email.trim().toLowerCase(),
           username: registerPayload.username,

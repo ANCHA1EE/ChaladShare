@@ -8,9 +8,9 @@ import logo from "../assets/logo.png";
 import { MdLockOutline } from "react-icons/md";
 import { VscEye, VscEyeClosed, VscArrowLeft } from "react-icons/vsc";
 
-const API_ORIGIN = process.env.REACT_APP_API_ORIGIN || "http://localhost:8080";
+// const API_ORIGIN = process.env.REACT_APP_API_ORIGIN || "http://localhost:8080";
 
-// ✅ แปลงข้อความ success/error จาก backend ให้เป็นไทย (แก้ที่หน้าบ้านอย่างเดียว)
+// แปลงข้อความ success/error จาก backend ให้เป็นไทย (แก้ที่หน้าบ้านอย่างเดียว)
 const toThaiSuccess = (raw) => {
   const msg = String(raw || "").toLowerCase().trim();
 
@@ -77,7 +77,8 @@ export default function NewPassword() {
       setLoading(true);
 
       const res = await axios.post(
-        `${API_ORIGIN}/api/v1/auth/reset-password`,
+        // `${API_ORIGIN}/api/v1/auth/reset-password`,
+        "/auth/reset-password",
         {
           email: String(email).trim().toLowerCase(),
           otp: String(otp),

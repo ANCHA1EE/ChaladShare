@@ -11,7 +11,7 @@ import logo from "../assets/logo.png";
 
 // ✅ ตั้งค่า base URL ของ backend (dev)
 // ถ้าตั้ง .env ฝั่ง frontend ไว้ก็ใช้ REACT_APP_API_ORIGIN ได้ เช่น http://localhost:8080
-const API_ORIGIN = process.env.REACT_APP_API_ORIGIN || "http://localhost:8080";
+// const API_ORIGIN = process.env.REACT_APP_API_ORIGIN || "http://localhost:8080";
 
 const ForgotPassword = () => {
   const navigate = useNavigate(); // ✅ เพิ่ม (เกี่ยวกับการไปหน้า reset)
@@ -34,8 +34,8 @@ const ForgotPassword = () => {
     try {
       setLoading(true);
 
-      // ✅ ยิงไป backend จริง
-      const url = `${API_ORIGIN}/api/v1/auth/forgot-password`;
+      // const url = `${API_ORIGIN}/api/v1/auth/forgot-password`;
+      const url = "auth/forgot-password";
       const res = await axios.post(
         url,
         { email: normalized },
