@@ -113,22 +113,79 @@ const Register = () => {
       return;
     }
 
+    // try {
+    //   setLoading(true);
+
+    // ✅ เช็ค username ซ้ำก่อน (ถ้ามี endpoint)
+    // const ok = await checkUsernameAvailable(username);
+    // if (!ok) {
+    //   setError("ชื่อผู้ใช้นี้มีคนใช้แล้ว กรุณาเปลี่ยนชื่อผู้ใช้");
+    //   return;
+    // }
+
+    //     await axios.post(
+    //       "/auth/register/request-otp",
+    //       { email, username }, // ✅ ส่ง username ไปด้วย
+    //       {
+    //         headers: { "Content-Type": "application/json" },
+    //         withCredentials: true,
+    //         timeout: 15000,
+    //       }
+    //     );
+
+    //     navigate("/verify-otp", {
+    //       state: { mode: "register", email, username, password },
+    //       replace: true,
+    //     });
+    //   } catch (err) {
+    //     const msg =
+    //       err.response?.data?.error ||
+    //       err.response?.data?.message ||
+    //       err.response?.data?.detail ||
+    //       "เกิดข้อผิดพลาดในการส่ง OTP";
+    //     const status = err?.response?.status;
+
+    //     if (status === 409) {
+    //       // backend จะส่ง error เป็นข้อความไทยอยู่แล้ว เช่น "อีเมลนี้เคยสมัครไปแล้ว" / "ชื่อผู้ใช้นี้มีคนใช้แล้ว"
+    //       if (/อีเมล/i.test(msg) || /email/i.test(msg)) {
+    //         setError("อีเมลนี้เคยสมัครไปแล้ว");
+    //         return;
+    //       }
+    //       if (/ชื่อผู้ใช้/i.test(msg) || /username/i.test(msg)) {
+    //         setError("ชื่อผู้ใช้นี้มีคนใช้แล้ว กรุณาเปลี่ยนชื่อผู้ใช้");
+    //         return;
+    //       }
+    //     }
+
+    //     // ✅ map ข้อความให้ชัดขึ้นตาม requirement
+    //     if (/email/i.test(msg) && /invalid|รูปแบบ/i.test(msg)) {
+    //       setError("รูปแบบอีเมลไม่ถูกต้อง");
+    //       return;
+    //     }
+    //     if (/username/i.test(msg) || /ชื่อผู้ใช้/i.test(msg)) {
+    //       setError("ชื่อผู้ใช้นี้มีคนใช้แล้ว กรุณาเปลี่ยนชื่อผู้ใช้");
+    //       return;
+    //     }
+    //     if (/password/i.test(msg) && (/8|length|ความยาว|มากกว่า/i.test(msg))) {
+    //       setError("รหัสผ่านต้องมากกว่า 8 ตัวอักษร");
+    //       return;
+    //     }
+
+    //     setError(msg);
+    //   } finally {
+    //     setLoading(false);
+    //   }
+    // };
+
     try {
       setLoading(true);
 
-      // ✅ เช็ค username ซ้ำก่อน (ถ้ามี endpoint)
-      // const ok = await checkUsernameAvailable(username);
-      // if (!ok) {
-      //   setError("ชื่อผู้ใช้นี้มีคนใช้แล้ว กรุณาเปลี่ยนชื่อผู้ใช้");
-      //   return;
-      // }
-
       await axios.post(
         "/auth/register/request-otp",
-        { email, username }, // ✅ ส่ง username ไปด้วย
+        { email, username },
         {
           headers: { "Content-Type": "application/json" },
-          withCredentials: true,
+          withCredentials: false,
           timeout: 15000,
         }
       );
@@ -138,15 +195,24 @@ const Register = () => {
         replace: true,
       });
     } catch (err) {
+      console.log("REGISTER_REQUEST_OTP_ERROR:", err);
+      console.log("STATUS:", err.response?.status);
+      console.log("DATA:", err.response?.data);
+
+      if (!err.response) {
+        setError("เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ กรุณาลองใหม่อีกครั้ง");
+        return;
+      }
+
       const msg =
         err.response?.data?.error ||
         err.response?.data?.message ||
         err.response?.data?.detail ||
-        "เกิดข้อผิดพลาดในการส่ง OTP";
+        "";
+
       const status = err?.response?.status;
 
       if (status === 409) {
-        // backend จะส่ง error เป็นข้อความไทยอยู่แล้ว เช่น "อีเมลนี้เคยสมัครไปแล้ว" / "ชื่อผู้ใช้นี้มีคนใช้แล้ว"
         if (/อีเมล/i.test(msg) || /email/i.test(msg)) {
           setError("อีเมลนี้เคยสมัครไปแล้ว");
           return;
@@ -155,9 +221,15 @@ const Register = () => {
           setError("ชื่อผู้ใช้นี้มีคนใช้แล้ว กรุณาเปลี่ยนชื่อผู้ใช้");
           return;
         }
+        setError("อีเมลหรือชื่อผู้ใช้นี้ถูกใช้งานแล้ว");
+        return;
       }
 
-      // ✅ map ข้อความให้ชัดขึ้นตาม requirement
+      if (status === 500) {
+        setError("เซิร์ฟเวอร์ไม่สามารถส่ง OTP ได้ กรุณาลองใหม่อีกครั้ง");
+        return;
+      }
+
       if (/email/i.test(msg) && /invalid|รูปแบบ/i.test(msg)) {
         setError("รูปแบบอีเมลไม่ถูกต้อง");
         return;
@@ -171,124 +243,124 @@ const Register = () => {
         return;
       }
 
-      setError(msg);
+      setError(msg || "เกิดข้อผิดพลาดในการส่ง OTP");
     } finally {
       setLoading(false);
     }
   };
 
-  return (
-    <div className="register-page">
-      <div
-        className="register-container"
-        style={{
-          backgroundImage: `url(${bg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        <div className="login-box">
-          <img src={logo} alt="Logo" />
-          <h2>สมัครสมาชิก</h2>
+    return (
+      <div className="register-page">
+        <div
+          className="register-container"
+          style={{
+            backgroundImage: `url(${bg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          <div className="login-box">
+            <img src={logo} alt="Logo" />
+            <h2>สมัครสมาชิก</h2>
 
-          {/* ✅ ปิด popup อังกฤษของ browser */}
-          <form onSubmit={handleSubmit} noValidate>
-            <div className="input-group">
-              <span className="icon">
-                <MdOutlineAlternateEmail />
-              </span>
-              <input
-                type="text" // ✅ กัน tooltip ของ browser
-                name="userEmail"
-                value={formData.userEmail}
-                onChange={handleChange}
-                placeholder="Email"
-                autoComplete="email"
-                required
-              />
-            </div>
+            {/* ✅ ปิด popup อังกฤษของ browser */}
+            <form onSubmit={handleSubmit} noValidate>
+              <div className="input-group">
+                <span className="icon">
+                  <MdOutlineAlternateEmail />
+                </span>
+                <input
+                  type="text" // ✅ กัน tooltip ของ browser
+                  name="userEmail"
+                  value={formData.userEmail}
+                  onChange={handleChange}
+                  placeholder="Email"
+                  autoComplete="email"
+                  required
+                />
+              </div>
 
-            <div className="input-group">
-              <span className="icon">
-                <BiUser />
-              </span>
-              <input
-                type="text"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                placeholder="Username"
-                autoComplete="username"
-                required
-              />
-            </div>
+              <div className="input-group">
+                <span className="icon">
+                  <BiUser />
+                </span>
+                <input
+                  type="text"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  placeholder="Username"
+                  autoComplete="username"
+                  required
+                />
+              </div>
 
-            <div className="input-group" style={{ position: "relative" }}>
-              <span className="icon">
-                <MdLockOutline />
-              </span>
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="Password"
-                autoComplete="new-password"
-                required
-              />
-              <span
-                className="icon-right"
-                onClick={() => setShowPassword(!showPassword)}
-                style={{ cursor: "pointer" }}
+              <div className="input-group" style={{ position: "relative" }}>
+                <span className="icon">
+                  <MdLockOutline />
+                </span>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Password"
+                  autoComplete="new-password"
+                  required
+                />
+                <span
+                  className="icon-right"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{ cursor: "pointer" }}
+                >
+                  {showPassword ? <VscEyeClosed /> : <VscEye />}
+                </span>
+              </div>
+
+              <div className="input-group" style={{ position: "relative" }}>
+                <span className="icon">
+                  <MdLockOutline />
+                </span>
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  name="confirmpassword"
+                  value={formData.confirmpassword}
+                  onChange={handleChange}
+                  placeholder="Confirm password"
+                  autoComplete="new-password"
+                  required
+                />
+                <span
+                  className="icon-right"
+                  onClick={() => setshowConfirmPassword(!showConfirmPassword)}
+                  style={{ cursor: "pointer" }}
+                >
+                  {showConfirmPassword ? <VscEyeClosed /> : <VscEye />}
+                </span>
+              </div>
+
+              {error && (
+                <p style={{ color: "red", marginBottom: "10px" }}>{error}</p>
+              )}
+
+              <button
+                type="submit"
+                className="mb-3 p-2 border border-gray-300 rounded"
+                disabled={loading}
               >
-                {showPassword ? <VscEyeClosed /> : <VscEye />}
-              </span>
+                {loading ? "กำลังส่ง OTP..." : "สมัครสมาชิก"}
+              </button>
+            </form>
+
+            <div className="ClickToRegis">
+              <p>คุณมีบัญชีแล้ว?</p>
+              <Link to="/">เข้าสู่ระบบ</Link>
             </div>
-
-            <div className="input-group" style={{ position: "relative" }}>
-              <span className="icon">
-                <MdLockOutline />
-              </span>
-              <input
-                type={showConfirmPassword ? "text" : "password"}
-                name="confirmpassword"
-                value={formData.confirmpassword}
-                onChange={handleChange}
-                placeholder="Confirm password"
-                autoComplete="new-password"
-                required
-              />
-              <span
-                className="icon-right"
-                onClick={() => setshowConfirmPassword(!showConfirmPassword)}
-                style={{ cursor: "pointer" }}
-              >
-                {showConfirmPassword ? <VscEyeClosed /> : <VscEye />}
-              </span>
-            </div>
-
-            {error && (
-              <p style={{ color: "red", marginBottom: "10px" }}>{error}</p>
-            )}
-
-            <button
-              type="submit"
-              className="mb-3 p-2 border border-gray-300 rounded"
-              disabled={loading}
-            >
-              {loading ? "กำลังส่ง OTP..." : "สมัครสมาชิก"}
-            </button>
-          </form>
-
-          <div className="ClickToRegis">
-            <p>คุณมีบัญชีแล้ว?</p>
-            <Link to="/">เข้าสู่ระบบ</Link>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
-export default Register;
+  export default Register;

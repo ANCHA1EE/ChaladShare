@@ -155,6 +155,7 @@ export default function VerifyOTP() {
 
       await axios.post(url, body, {
         headers: { "Content-Type": "application/json" },
+        withCredentials: false,
         timeout: 15000,
       });
 
@@ -187,12 +188,23 @@ export default function VerifyOTP() {
       setLoading(true);
 
       if (mode === "forgot") {
+        // await axios.post(
+        //   // `${API_ORIGIN}/api/v1/auth/forgot-password/verify-otp`,
+        //   "auth/forgot-password/verify-otp",
+        //   { email: email.trim().toLowerCase(), otp: otpNow },
+        //   { headers: { "Content-Type": "application/json" }, timeout: 15000 }
+        // );
+
         await axios.post(
-          // `${API_ORIGIN}/api/v1/auth/forgot-password/verify-otp`,
           "auth/forgot-password/verify-otp",
           { email: email.trim().toLowerCase(), otp: otpNow },
-          { headers: { "Content-Type": "application/json" }, timeout: 15000 }
+          {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: false,
+            timeout: 15000,
+          }
         );
+
 
         navigate("/new-password", {
           state: { email, otp: otpNow, ttlLeft: remaining },
@@ -201,11 +213,21 @@ export default function VerifyOTP() {
         return;
       }
 
+      // const confirmRes = await axios.post(
+      //   // `${API_ORIGIN}/api/v1/auth/register/confirm-otp`,
+      //   "auth/register/confirm-otp",
+      //   { email: email.trim().toLowerCase(), otp: otpNow },
+      //   { headers: { "Content-Type": "application/json" }, timeout: 15000 }
+      // );
+
       const confirmRes = await axios.post(
-        // `${API_ORIGIN}/api/v1/auth/register/confirm-otp`,
         "auth/register/confirm-otp",
         { email: email.trim().toLowerCase(), otp: otpNow },
-        { headers: { "Content-Type": "application/json" }, timeout: 15000 }
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: false,
+          timeout: 15000,
+        }
       );
 
       const verify_token = confirmRes.data?.verify_token;
@@ -214,8 +236,19 @@ export default function VerifyOTP() {
         return;
       }
 
+      // await axios.post(
+      //   // `${API_ORIGIN}/api/v1/auth/register`,
+      //   "auth/register",
+      //   {
+      //     email: email.trim().toLowerCase(),
+      //     username: registerPayload.username,
+      //     password: registerPayload.password,
+      //     verify_token,
+      //   },
+      //   { headers: { "Content-Type": "application/json" }, timeout: 15000 }
+      // );
+
       await axios.post(
-        // `${API_ORIGIN}/api/v1/auth/register`,
         "auth/register",
         {
           email: email.trim().toLowerCase(),
@@ -223,7 +256,11 @@ export default function VerifyOTP() {
           password: registerPayload.password,
           verify_token,
         },
-        { headers: { "Content-Type": "application/json" }, timeout: 15000 }
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: false,
+          timeout: 15000,
+        }
       );
 
       notifySuccess("สมัครสมาชิกสำเร็จ", 3000);
@@ -237,7 +274,7 @@ export default function VerifyOTP() {
 
       const raw = err.response?.data?.error || err.response?.data?.message || err.message;
       const msg = toThaiError(raw);
-      
+
       setError(toThaiError(raw));
       setError(msg);       // ข้อความแดงในหน้า
       notifyError(msg, 2500); // toast มุมขวาบน
