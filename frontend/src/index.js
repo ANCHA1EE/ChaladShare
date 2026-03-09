@@ -13,7 +13,7 @@ import { NotificationProvider } from "./component/Notification";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 // axios.defaults.baseURL = "http://localhost:8080/api/v1";
-axios.defaults.baseURL = "https://chaladshare-production-83e3.up.railway.app/api/v1";
+axios.defaults.baseURL = "https://chaladshare-backend.fly.dev/api/v1";
 axios.defaults.withCredentials = true;
 
 let refreshPromise = null;
