@@ -6,9 +6,14 @@ import axios from "axios";
 import './index.css';
 import { NotificationProvider } from "./component/Notification";
 
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// axios.defaults.baseURL =
+//   process.env.REACT_APP_API_URL || "http://localhost:8080/api/v1";
+// axios.defaults.withCredentials = true;
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
-axios.defaults.baseURL =
-  process.env.REACT_APP_API_URL || "http://localhost:8080/api/v1";
+// axios.defaults.baseURL = "http://localhost:8080/api/v1";
+axios.defaults.baseURL = "https://chaladshare-production-83e3.up.railway.app/api/v1";
 axios.defaults.withCredentials = true;
 
 let refreshPromise = null;
