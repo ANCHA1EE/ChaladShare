@@ -315,12 +315,12 @@ const Profile = () => {
 
         const [prof, postsRes] = await Promise.all([profReq, postsReq]);
 
-        const statsUserId = isOwn
-          ? (prof?.data?.user_id ?? prof?.data?.id ?? myId)
-          : ownerId;
+        // const statsUserId = isOwn
+        //   ? (prof?.data?.user_id ?? prof?.data?.id ?? myId)
+        //   : ownerId;
 
-        const statsRes = await axios.get(`/social/stats/${statsUserId}`);
-        const stats = statsRes?.data ?? {};
+        // const statsRes = await axios.get(`/social/stats/${statsUserId}`);
+        // const stats = statsRes?.data ?? {};
 
         // const prof = isOwn
         //   ? await axios.get("/profile", {
@@ -402,8 +402,18 @@ const Profile = () => {
             bio: prof?.data?.bio ?? prev.bio,
             avatar: avatarFull,
             posts: prof?.data?.posts_count ?? prev.posts ?? 0,
-            followers: stats.followers ?? prev.followers ?? 0,
-            following: stats.following ?? prev.following ?? 0,
+            // followers: stats.followers ?? prev.followers ?? 0,
+            // following: stats.following ?? prev.following ?? 0,
+            followers:
+              prof?.data?.followers_count ??
+              prof?.data?.followers ??
+              prev.followers ??
+              0,
+            following:
+              prof?.data?.following_count ??
+              prof?.data?.following ??
+              prev.following ??
+              0,
           };
         });
 
