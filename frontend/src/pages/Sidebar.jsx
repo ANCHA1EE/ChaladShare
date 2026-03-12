@@ -1,6 +1,11 @@
 import React, { useLayoutEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { RiUser6Line, RiUserAddLine, RiLogoutCircleRLine, RiHome2Line } from "react-icons/ri";
+import {
+  RiUser6Line,
+  RiUserAddLine,
+  RiLogoutCircleRLine,
+  RiHome2Line,
+} from "react-icons/ri";
 import { HiOutlineSparkles } from "react-icons/hi2";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { TbHelpCircle } from "react-icons/tb";
@@ -9,7 +14,7 @@ import axios from "axios";
 import "../component/Sidebar.css";
 import logo from "../assets/logo.png";
 
-const API_HOST = "http://localhost:8080/api/v1";
+// const API_HOST = "http://localhost:8080/api/v1";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -26,7 +31,9 @@ const Sidebar = () => {
   };
 
   // ตั้งค่าเริ่มต้นให้ตรงกับ path ตั้งแต่ render แรก
-  const [activeKey, setActiveKey] = useState(() => getKeyFromPath(location.pathname));
+  const [activeKey, setActiveKey] = useState(() =>
+    getKeyFromPath(location.pathname),
+  );
 
   // ซิงค์ก่อน paint เพื่อลด/หายอาการกระพริบ
   useLayoutEffect(() => {
@@ -45,35 +52,35 @@ const Sidebar = () => {
   //     console.log("logout error:", err);
   //   } finally {
   //     setActiveKey("home");
-  //     navigate("/"); 
+  //     navigate("/");
   //   }
   // };
   const handleLogout = async () => {
-  try {
-    await axios.post(`${API_HOST}/auth/logout`, {}, { withCredentials: true });
-  } catch (err) {
-    console.log("logout error:", err);
-  } finally {
     try {
-      Object.keys(localStorage).forEach((key) => {
-        if (key.startsWith("chaladshare_ai_summary_state_v2")) {
-          localStorage.removeItem(key);
-        }
-      });
+      await axios.post("auth/logout", {}, { withCredentials: true });
+    } catch (err) {
+      console.log("logout error:", err);
+    } finally {
+      try {
+        Object.keys(localStorage).forEach((key) => {
+          if (key.startsWith("chaladshare_ai_summary_state_v2")) {
+            localStorage.removeItem(key);
+          }
+        });
 
-      // ถ้ามีเก็บ auth/user ไว้ใน browser ด้วย ค่อยลบเพิ่มตามชื่อ key จริงของโปรเจกต์
-      // localStorage.removeItem("user");
-      // localStorage.removeItem("token");
-      // sessionStorage.removeItem("user");
-      // sessionStorage.removeItem("token");
-    } catch (e) {
-      console.log("clear storage error:", e);
+        // ถ้ามีเก็บ auth/user ไว้ใน browser ด้วย ค่อยลบเพิ่มตามชื่อ key จริงของโปรเจกต์
+        // localStorage.removeItem("user");
+        // localStorage.removeItem("token");
+        // sessionStorage.removeItem("user");
+        // sessionStorage.removeItem("token");
+      } catch (e) {
+        console.log("clear storage error:", e);
+      }
+
+      setActiveKey("home");
+      navigate("/");
     }
-
-    setActiveKey("home");
-    navigate("/");
-  }
-};
+  };
 
   return (
     <div className="sidebar">
@@ -86,29 +93,47 @@ const Sidebar = () => {
       </div>
 
       <ul className="menu">
-        <li className={activeKey === "home" ? "active" : ""} onClick={() => go("home", "/home")}>
+        <li
+          className={activeKey === "home" ? "active" : ""}
+          onClick={() => go("home", "/home")}
+        >
           <RiHome2Line /> หน้าหลัก
         </li>
 
-        <li className={activeKey === "newpost" ? "active" : ""} onClick={() => go("newpost", "/newpost")}>
+        <li
+          className={activeKey === "newpost" ? "active" : ""}
+          onClick={() => go("newpost", "/newpost")}
+        >
           <IoMdAddCircleOutline /> สร้าง
         </li>
 
-        <li className={activeKey === "ai" ? "active" : ""} onClick={() => go("ai", "/ai")}>
+        <li
+          className={activeKey === "ai" ? "active" : ""}
+          onClick={() => go("ai", "/ai")}
+        >
           <HiOutlineSparkles /> AI ช่วยสรุป
         </li>
 
-        <li className={activeKey === "friends" ? "active" : ""} onClick={() => go("friends", "/friends")}>
+        <li
+          className={activeKey === "friends" ? "active" : ""}
+          onClick={() => go("friends", "/friends")}
+        >
           <RiUserAddLine /> เพื่อน
         </li>
 
-        <li className={activeKey === "profile" ? "active" : ""} onClick={() => go("profile", "/profile")}>
+        <li
+          className={activeKey === "profile" ? "active" : ""}
+          onClick={() => go("profile", "/profile")}
+        >
           <RiUser6Line /> โปรไฟล์
         </li>
 
         <div className="menu-spacer" aria-hidden="true"></div>
 
-        <li className={activeKey === "helper" ? "active" : ""} onClick={() => go("helper", "/helper")}>
+        <li
+          className={activeKey === "helper" ? "active" : ""}
+          onClick={() => go("helper", "/helper")}
+        >
           <TbHelpCircle /> คู่มือใช้งาน
         </li>
 
