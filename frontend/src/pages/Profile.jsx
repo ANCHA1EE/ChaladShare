@@ -301,30 +301,51 @@ const Profile = () => {
 
     const fetchData = async () => {
       try {
-        const prof = isOwn
-          ? await axios.get("/profile", {
+        const profReq = isOwn
+          ? axios.get("/profile", {
               params: { with: "stats,followers,following,rel" },
             })
-          : await axios.get(`/profile/${targetId}`, {
+          : axios.get(`/profile/${targetId}`, {
               params: { with: "stats,followers,following,rel" },
             });
+
+        const postsReq = isOwn
+          ? axios.get("/posts", { params: { mine: 1 } })
+          : axios.get("/posts", { params: { user_id: ownerId } });
+
+        const [prof, postsRes] = await Promise.all([profReq, postsReq]);
 
         const statsUserId = isOwn
           ? (prof?.data?.user_id ?? prof?.data?.id ?? myId)
           : ownerId;
+
         const statsRes = await axios.get(`/social/stats/${statsUserId}`);
         const stats = statsRes?.data ?? {};
 
-        const postsRes = isOwn
-          ? await axios.get("/posts", { params: { mine: 1 } })
-          : await axios.get("/posts", { params: { user_id: ownerId } });
+        // const prof = isOwn
+        //   ? await axios.get("/profile", {
+        //       params: { with: "stats,followers,following,rel" },
+        //     })
+        //   : await axios.get(`/profile/${targetId}`, {
+        //       params: { with: "stats,followers,following,rel" },
+        //     });
 
-        let savedRes = { data: [] };
-        if (isOwn) {
-          try {
-            savedRes = await axios.get("/posts/save");
-          } catch {}
-        }
+        // const statsUserId = isOwn
+        //   ? (prof?.data?.user_id ?? prof?.data?.id ?? myId)
+        //   : ownerId;
+        // const statsRes = await axios.get(`/social/stats/${statsUserId}`);
+        // const stats = statsRes?.data ?? {};
+
+        // const postsRes = isOwn
+        //   ? await axios.get("/posts", { params: { mine: 1 } })
+        //   : await axios.get("/posts", { params: { user_id: ownerId } });
+
+        // let savedRes = { data: [] };
+        // if (isOwn) {
+        //   try {
+        //     savedRes = await axios.get("/posts/save");
+        //   } catch {}
+        // }
 
         const rawAvatar = prof?.data?.avatar_url || "";
 
@@ -346,11 +367,7 @@ const Profile = () => {
                   ? toAbsUrl(rawAuthorAvatar)
                   : Avatar;
 
-                const authorName =
-                  p.author_name ||
-                  p.username ||
-                  (isOwn && profile.name) ||
-                  "ผู้ใช้";
+                const authorName = p.author_name || p.username || "ผู้ใช้";
 
                 return {
                   id: p.post_id,
@@ -395,11 +412,11 @@ const Profile = () => {
           : Array.isArray(postsRes?.data)
             ? postsRes.data
             : [];
-        const savedRows = Array.isArray(savedRes?.data?.data)
-          ? savedRes.data.data
-          : Array.isArray(savedRes?.data)
-            ? savedRes.data
-            : [];
+        // const savedRows = Array.isArray(savedRes?.data?.data)
+        //   ? savedRes.data.data
+        //   : Array.isArray(savedRes?.data)
+        //     ? savedRes.data
+        //     : [];
 
         const ownerRows = postRows.filter(
           (p) =>
@@ -408,7 +425,7 @@ const Profile = () => {
         );
 
         setPosts(format(ownerRows));
-        setSavedPosts(isOwn ? format(savedRows) : []);
+        // setSavedPosts(isOwn ? format(savedRows) : []);
 
         if (!isOwn) {
           const rel = prof?.data ?? {};
@@ -448,74 +465,136 @@ const Profile = () => {
     };
 
     fetchData();
-  }, [isOwn, ownerId, targetId, myId, profile.name]);
+  }, [isOwn, ownerId, targetId, myId]);
+
+  // useEffect(() => {
+  //   if (isOwn || !myId || !targetId) return;
+  //   if (friendStatus === "friends") return;
+
+  //   const checkFriendRelation = async () => {
+  //     try {
+  //       const friendsRes = await axios.get(`/social/friends/${myId}`, {
+  //         params: { page: 1, size: 500, search: "" },
+  //       });
+  //       const friendItems = friendsRes.data.items || [];
+  //       const isFriend = friendItems.some(
+  //         (f) => String(f.user_id) === String(targetId),
+  //       );
+
+  //       if (isFriend) {
+  //         setFriendStatus("friends");
+  //         return;
+  //       }
+
+  //       const outgoingRes = await axios.get("/social/requests/outgoing", {
+  //         params: { page: 1, size: 500 },
+  //       });
+  //       const outgoingItems = outgoingRes.data.items || [];
+
+  //       const hasOutgoing = outgoingItems.some((r) => {
+  //         const toId =
+  //           r.addressee_user_id ??
+  //           r.addressee_id ??
+  //           r.to_user_id ??
+  //           r.receiver_id ??
+  //           r.requested_user_id ??
+  //           r.target_user_id;
+
+  //         return String(toId) === String(targetId);
+  //       });
+
+  //       const incomingRes = await axios.get("/social/requests/incoming", {
+  //         params: { page: 1, size: 500 },
+  //       });
+  //       const incomingItems = incomingRes.data.items || [];
+
+  //       const hasIncoming = incomingItems.some((r) => {
+  //         const fromId =
+  //           r.requester_user_id ??
+  //           r.requester_id ??
+  //           r.from_user_id ??
+  //           r.sender_id ??
+  //           r.user_id;
+
+  //         return String(fromId) === String(targetId);
+  //       });
+
+  //       if (hasOutgoing) setFriendStatus("requested");
+  //       else if (hasIncoming) setFriendStatus("incoming");
+  //       else setFriendStatus("idle");
+  //     } catch (e) {
+  //       console.error(
+  //         "checkFriendRelation failed:",
+  //         e?.response?.status,
+  //         e?.response?.data || e,
+  //       );
+  //     }
+  //   };
+
+  //   checkFriendRelation();
+  // }, [isOwn, myId, targetId, friendStatus]);
 
   useEffect(() => {
-    if (isOwn || !myId || !targetId) return;
-    if (friendStatus === "friends") return;
+    if (!isOwn || activeTab !== "saved") return;
 
-    const checkFriendRelation = async () => {
+    const formatSaved = (list) =>
+      Array.isArray(list)
+        ? list.map((p) => {
+            const fileRaw = p.file_url || "";
+            const coverRaw = p.cover_url || "";
+            const isPdf = /\.pdf$/i.test(fileRaw);
+
+            const imgSrc = coverRaw
+              ? toAbsUrl(coverRaw)
+              : !fileRaw || isPdf
+                ? "/img/pdf-placeholder.jpg"
+                : toAbsUrl(fileRaw);
+
+            const rawAuthorAvatar = p.avatar_url || "";
+            const authorImg = rawAuthorAvatar
+              ? toAbsUrl(rawAuthorAvatar)
+              : Avatar;
+
+            const authorName = p.author_name || p.username || "ผู้ใช้";
+
+            return {
+              id: p.post_id,
+              post: p.post_id,
+              img: imgSrc,
+              isPdf,
+              likes: p.like_count ?? 0,
+              like_count: p.like_count ?? 0,
+              is_liked: !!p.is_liked,
+              is_saved: !!p.is_saved,
+              title: p.post_title,
+              tags: Array.isArray(p.tags)
+                ? p.tags.map((t) => (t.startsWith("#") ? t : `#${t}`)).join(" ")
+                : "",
+              authorId: p.author_id ?? p.post_user_id ?? p.user_id,
+              authorName,
+              authorImg,
+            };
+          })
+        : [];
+
+    const fetchSavedPosts = async () => {
       try {
-        const friendsRes = await axios.get(`/social/friends/${myId}`, {
-          params: { page: 1, size: 500, search: "" },
-        });
-        const friendItems = friendsRes.data.items || [];
-        const isFriend = friendItems.some(
-          (f) => String(f.user_id) === String(targetId),
-        );
+        const savedRes = await axios.get("/posts/save");
 
-        if (isFriend) {
-          setFriendStatus("friends");
-          return;
-        }
+        const savedRows = Array.isArray(savedRes?.data?.data)
+          ? savedRes.data.data
+          : Array.isArray(savedRes?.data)
+            ? savedRes.data
+            : [];
 
-        const outgoingRes = await axios.get("/social/requests/outgoing", {
-          params: { page: 1, size: 500 },
-        });
-        const outgoingItems = outgoingRes.data.items || [];
-
-        const hasOutgoing = outgoingItems.some((r) => {
-          const toId =
-            r.addressee_user_id ??
-            r.addressee_id ??
-            r.to_user_id ??
-            r.receiver_id ??
-            r.requested_user_id ??
-            r.target_user_id;
-
-          return String(toId) === String(targetId);
-        });
-
-        const incomingRes = await axios.get("/social/requests/incoming", {
-          params: { page: 1, size: 500 },
-        });
-        const incomingItems = incomingRes.data.items || [];
-
-        const hasIncoming = incomingItems.some((r) => {
-          const fromId =
-            r.requester_user_id ??
-            r.requester_id ??
-            r.from_user_id ??
-            r.sender_id ??
-            r.user_id;
-
-          return String(fromId) === String(targetId);
-        });
-
-        if (hasOutgoing) setFriendStatus("requested");
-        else if (hasIncoming) setFriendStatus("incoming");
-        else setFriendStatus("idle");
+        setSavedPosts(formatSaved(savedRows));
       } catch (e) {
-        console.error(
-          "checkFriendRelation failed:",
-          e?.response?.status,
-          e?.response?.data || e,
-        );
+        console.error("โหลดรายการที่บันทึกไม่สำเร็จ", e);
       }
     };
 
-    checkFriendRelation();
-  }, [isOwn, myId, targetId, friendStatus]);
+    fetchSavedPosts();
+  }, [isOwn, activeTab]);
 
   useEffect(() => {
     if (isOwn === false && activeTab !== "posts") setActiveTab("posts");
