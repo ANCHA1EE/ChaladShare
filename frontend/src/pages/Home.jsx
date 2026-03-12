@@ -173,7 +173,7 @@ const Home = () => {
     [navigate, search, searchPage],
   );
 
-  // โหลดโพสต์ยอดเยี่ยม
+  // โหลดโพสต์ยอดนิยม
   useEffect(() => {
     let cancelled = false;
 
@@ -200,7 +200,7 @@ const Home = () => {
           setPopErr(
             e?.response?.data?.error ||
               e.message ||
-              "โหลดโพสต์ยอดเยี่ยมล้มเหลว",
+              "โหลดโพสต์ยอดนิยมล้มเหลว",
           );
         }
       } finally {
@@ -402,13 +402,13 @@ const Home = () => {
           {!isSearchMode && (
             <>
               {/* โพสต์ยอดนิยม */}
-              <h3>โพสต์สรุปยอดเยี่ยม</h3>
-              {loadingPop && <div>กำลังโหลดโพสต์ยอดเยี่ยม...</div>}
+              <h3>โพสต์สรุปยอดนิยม</h3>
+              {loadingPop && <div>กำลังโหลดโพสต์ยอดนิยม...</div>}
               {popErr && <div style={{ color: "#b00020" }}>{popErr}</div>}
 
               <div className="card-list">
                 {!loadingPop && !popErr && rankedPopular.length === 0 && (
-                  <div>ยังไม่มีโพสต์ยอดเยี่ยม</div>
+                  <div>ยังไม่มีโพสต์ยอดนิยม</div>
                 )}
 
                 {!loadingPop &&
