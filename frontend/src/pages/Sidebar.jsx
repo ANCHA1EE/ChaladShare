@@ -9,7 +9,7 @@ import axios from "axios";
 import "../component/Sidebar.css";
 import logo from "../assets/logo.png";
 
-// const API_HOST = "http://localhost:8080/api/v1";
+const API_HOST = "http://localhost:8080/api/v1";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -38,17 +38,42 @@ const Sidebar = () => {
     navigate(path);
   };
 
+  // const handleLogout = async () => {
+  //   try {
+  //     await axios.post(`${API_HOST}/auth/logout`, {}, { withCredentials: true });
+  //   } catch (err) {
+  //     console.log("logout error:", err);
+  //   } finally {
+  //     setActiveKey("home");
+  //     navigate("/"); 
+  //   }
+  // };
   const handleLogout = async () => {
+  try {
+    await axios.post(`${API_HOST}/auth/logout`, {}, { withCredentials: true });
+  } catch (err) {
+    console.log("logout error:", err);
+  } finally {
     try {
-      // await axios.post(`${API_HOST}/auth/logout`, {}, { withCredentials: true });
-      await axios.post("auth/logout", {}, { withCredentials: true });
-    } catch (err) {
-      console.log("logout error:", err);
-    } finally {
-      setActiveKey("home");
-      navigate("/"); 
+      Object.keys(localStorage).forEach((key) => {
+        if (key.startsWith("chaladshare_ai_summary_state_v2")) {
+          localStorage.removeItem(key);
+        }
+      });
+
+      // ถ้ามีเก็บ auth/user ไว้ใน browser ด้วย ค่อยลบเพิ่มตามชื่อ key จริงของโปรเจกต์
+      // localStorage.removeItem("user");
+      // localStorage.removeItem("token");
+      // sessionStorage.removeItem("user");
+      // sessionStorage.removeItem("token");
+    } catch (e) {
+      console.log("clear storage error:", e);
     }
-  };
+
+    setActiveKey("home");
+    navigate("/");
+  }
+};
 
   return (
     <div className="sidebar">
