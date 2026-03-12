@@ -33,7 +33,7 @@ const EditPost = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
-  const [successMsg, setSuccessMsg] = useState(""); // ✅ ข้อความเขียว
+  const [successMsg, setSuccessMsg] = useState(""); // ข้อความเขียว
 
   const [postData, setPostData] = useState({
     title: "",
@@ -139,7 +139,7 @@ const EditPost = () => {
     setError("");
     setSuccessMsg("");
 
-    // 🔒 Validation (แก้เฉพาะ "คำอธิบาย" ให้เว้นว่างได้)
+    // Validation (แก้เฉพาะ "คำอธิบาย" ให้เว้นว่างได้)
     if (!postData.title.trim()) {
       setError("กรุณากรอกหัวข้อสรุป");
       return;
@@ -156,7 +156,7 @@ const EditPost = () => {
 
       const payload = {
         post_title: postData.title.trim(),
-        // ✅ คำอธิบายเว้นว่างได้: ส่งเป็นสตริง (trim เพื่อความสะอาด แต่ไม่บังคับว่าห้ามว่าง)
+        // คำอธิบายเว้นว่างได้: ส่งเป็นสตริง (trim เพื่อความสะอาด แต่ไม่บังคับว่าห้ามว่าง)
         post_description: (postData.description || "").trim(),
         post_visibility: postData.visibility,
         tags: tags,
@@ -164,10 +164,10 @@ const EditPost = () => {
 
       await axios.put(`/posts/${id}`, payload, { withCredentials: true });
 
-      // ✅ แสดงข้อความเขียวในหน้า EditPost
+      // แสดงข้อความเขียวในหน้า EditPost
       setSuccessMsg("บันทึกการแก้ไขเรียบร้อยแล้ว");
 
-      // ✅ รอให้ผู้ใช้เห็นข้อความสักครู่ แล้วค่อยไปหน้ารายละเอียดโพสต์
+      // รอให้ผู้ใช้เห็นข้อความสักครู่ แล้วค่อยไปหน้ารายละเอียดโพสต์
       setTimeout(() => {
         navigate(`/posts/${id}`, { replace: true });
       }, 800);
@@ -348,7 +348,7 @@ const EditPost = () => {
                   />
                 </div>
 
-                {/* ✅ Success / Error message ที่ตำแหน่งเดียวกัน */}
+                {/* Success / Error message ที่ตำแหน่งเดียวกัน */}
                 <div style={{ height: "24px", marginTop: "4px" }}>
                   {successMsg ? (
                     <p

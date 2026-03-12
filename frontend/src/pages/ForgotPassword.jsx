@@ -9,12 +9,12 @@ import "../component/Login.css"; // ใช้ CSS เดียวกับหน
 import bg from "../assets/bg.jpg";
 import logo from "../assets/logo.png";
 
-// ✅ ตั้งค่า base URL ของ backend (dev)
+// ตั้งค่า base URL ของ backend (dev)
 // ถ้าตั้ง .env ฝั่ง frontend ไว้ก็ใช้ REACT_APP_API_ORIGIN ได้ เช่น http://localhost:8080
 // const API_ORIGIN = process.env.REACT_APP_API_ORIGIN || "http://localhost:8080";
 
 const ForgotPassword = () => {
-  const navigate = useNavigate(); // ✅ เพิ่ม (เกี่ยวกับการไปหน้า reset)
+  const navigate = useNavigate(); // เพิ่ม (เกี่ยวกับการไปหน้า reset)
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -53,12 +53,12 @@ const ForgotPassword = () => {
 
       setSuccess(msg);
 
-      // ✅ ไปหน้า ResetPassword พร้อมส่ง email ไปด้วย (ไม่แก้ส่วนอื่น)
+      // ไปหน้า ResetPassword พร้อมส่ง email ไปด้วย (ไม่แก้ส่วนอื่น)
       setTimeout(() => {
         navigate("/verify-otp", { state: { mode: "forgot", email: normalized }, replace: true });
       }, 3000);
     } catch (err) {
-      // ✅ debug ให้รู้สาเหตุจริง (404 / CORS / 500)
+      // debug ให้รู้สาเหตุจริง (404 / CORS / 500)
       console.log("FORGOT_PASSWORD_ERROR:", err);
       console.log("STATUS:", err.response?.status);
       console.log("DATA:", err.response?.data);
@@ -69,7 +69,7 @@ const ForgotPassword = () => {
           "เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ (อาจเป็น CORS หรือ backend ไม่ได้รันอยู่) กรุณาลองใหม่"
         );
       } else {
-        // ✅ เพิ่ม: ถ้าอีเมลไม่มีในระบบ ให้แจ้ง user ตรงๆ และห้ามไปหน้า OTP
+        // เพิ่ม: ถ้าอีเมลไม่มีในระบบ ให้แจ้ง user ตรงๆ และห้ามไปหน้า OTP
         if (err.response.status === 404) {
           setError("ไม่มีอีเมลนี้ในระบบ กรุณาตรวจสอบอีเมลอีกครั้ง");
           return;

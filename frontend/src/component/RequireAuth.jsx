@@ -10,7 +10,7 @@ export default function RequireAuth() {
     let alive = true;
     (async () => {
       try {
-        await axios.get("/profile"); // protected -> จะ trigger refresh อัตโนมัติถ้า access หมด
+        await axios.get("/profile"); // protected จะ trigger refresh อัตโนมัติถ้า access หมด
         if (alive) setOk(true);
       } catch {
         if (alive) setOk(false);

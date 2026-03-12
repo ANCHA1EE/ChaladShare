@@ -87,14 +87,14 @@ export default function NewPassword() {
         { headers: { "Content-Type": "application/json" }, timeout: 15000 }
       );
 
-      // ✅ บังคับให้เป็นไทย + ค้างไว้ 3 วินาที
+      // บังคับให้เป็นไทย + ค้างไว้ 3 วินาที
       const rawMsg = res.data?.message || res.data?.success || "reset password success";
       setSuccess(toThaiSuccess(rawMsg));
 
       // (กันกดซ้ำ) ปิดปุ่มทันที
       // setLoading(true); // ไม่จำเป็น เพราะเรายัง setLoading อยู่แล้ว
 
-      // ✅ ค้าง 3 วิ แล้วเด้งกลับหน้า login
+      // ค้าง 3 วิ แล้วเด้งกลับหน้า login
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
       timeoutRef.current = setTimeout(() => {
         navigate("/", { replace: true });

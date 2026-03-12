@@ -123,7 +123,7 @@
   flex-wrap: wrap;
 }
 
-/* ✅ ขวา: พื้นที่แสดงผล (ไม่ใช่การ์ด) */
+/* ขวา: พื้นที่แสดงผล (ไม่ใช่การ์ด) */
 .ai-page .ai-output-panel{
   background: transparent;
   border: none;
@@ -131,7 +131,7 @@
 
   padding: 6px 4px 0 4px;
   min-height: 516px;
-  /* ✨ หมัดเด็ด: ป้องกันเนื้อหาด้านขวาดันการ์ดด้านซ้ายพัง ✨ */
+  /*ป้องกันเนื้อหาด้านขวาดันการ์ดด้านซ้ายพัง  */
   min-width: 0;
 }
 
@@ -179,13 +179,13 @@
   border-radius: 16px;
   padding: 16px;
 
-  /* ✅ สูงเท่าฝั่งซ้าย */
+  /*  สูงเท่าฝั่งซ้าย */
   min-height: 516px;
   height: 516px;
 
   overflow: auto;
 
-  /* ✅ ตัวหนังสือเล็กลง */
+  /* ตัวหนังสือเล็กลง */
   font-size: 15px;
   line-height: 1.6;
 
@@ -307,7 +307,7 @@
 }
 
 
-/* ⭐ AI Loading Star (float up-down แบบ AI) */
+/*  AI Loading Star (float up-down แบบ AI) */
 
 .ai-page .ai-output-panel {
   position: relative;
@@ -353,4 +353,89 @@
     transform: translateY(-8px);
   }
 
+}
+ /* popup */
+.ai-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.ai-toast-card {
+  position: relative;
+  min-width: 260px;
+  max-width: 340px;
+  padding: 14px 40px 14px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+  animation: aiToastIn 0.18s ease-out;
+  pointer-events: auto;
+}
+
+.ai-toast-title {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.35;
+  margin-bottom: 4px;
+  color: #0b5394;
+}
+
+.ai-toast-text {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #475569;
+  white-space: pre-line;
+}
+
+.ai-toast-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  width: 22px;
+  height: 22px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.ai-toast-close:hover {
+  background: rgba(15, 23, 42, 0.06);
+  color: #334155;
+}
+
+.ai-toast-warning .ai-toast-title {
+  color: #9a3412;
+}
+
+.ai-toast-error .ai-toast-title {
+  color: #b42318;
+}
+
+.ai-toast-success .ai-toast-title {
+  color: #166534;
+}
+
+.ai-toast-info .ai-toast-title {
+  color: #0b5394;
+}
+
+@keyframes aiToastIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) translateX(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateX(0);
+  }
 }

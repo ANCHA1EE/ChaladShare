@@ -12,7 +12,7 @@ const OTP_TTL_SECONDS = 180;
 const pad2 = (n) => String(n).padStart(2, "0");
 const formatMMSS = (sec) => `${pad2(Math.floor(sec / 60))}:${pad2(sec % 60)}`;
 
-// ✅ แปล error จาก backend เป็นภาษาไทย (แก้ที่หน้าบ้านอย่างเดียว)
+// แปล error จาก backend เป็นภาษาไทย (แก้ที่หน้าบ้านอย่างเดียว)
 const toThaiError = (raw) => {
   const msg = String(raw || "").toLowerCase().trim();
 
@@ -37,7 +37,7 @@ export default function VerifyOTP() {
   const location = useLocation();
   const { success: notifySuccess, error: notifyError } = useNotification();
 
-  // ✅ mode: "forgot" | "register"
+  // mode: "forgot" | "register"
   const mode = useMemo(() => {
     const m = location.state?.mode;
     return m === "register" ? "register" : "forgot";
@@ -106,7 +106,7 @@ export default function VerifyOTP() {
     if (v && i < 5) focusIndex(i + 1);
   };
 
-  // ✅ Backspace แบบไม่ preventDefault
+  // Backspace แบบไม่ preventDefault
   const onKeyDownAt = (i, e) => {
     if (e.key !== "Backspace") return;
     setError("");

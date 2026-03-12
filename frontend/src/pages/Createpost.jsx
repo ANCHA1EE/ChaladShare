@@ -32,7 +32,7 @@ const CreatePost = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  // ✅ เพิ่ม: error รายช่อง (สำหรับ * ที่ห้ามว่าง)
+  // เพิ่ม: error รายช่อง (สำหรับ * ที่ห้ามว่าง)
   const [fieldErrors, setFieldErrors] = useState({
     title: "",
     cover: "",
@@ -59,7 +59,7 @@ const CreatePost = () => {
     };
   }, []);
 
-  // ✅ เพิ่ม: validate เฉพาะช่องที่มี * (จำเป็นต้องมี)
+  // เพิ่ม: validate เฉพาะช่องที่มี * (จำเป็นต้องมี)
   const validateForm = () => {
     const next = { title: "", cover: "", file: "", tags: "" };
 
@@ -81,7 +81,7 @@ const CreatePost = () => {
       [name]: value,
     });
 
-    // ✅ เพิ่ม: ล้าง error ของช่องที่กำลังแก้
+    // เพิ่ม: ล้าง error ของช่องที่กำลังแก้
     if (name === "title" || name === "tags") {
       setFieldErrors((prev) => ({ ...prev, [name]: "" }));
     }
@@ -109,7 +109,7 @@ const CreatePost = () => {
     setCoverPreviewUrl(URL.createObjectURL(f));
 
     setForm({ ...formData, cover: f });
-    // ✅ เพิ่ม: ล้าง error cover เมื่อเลือกสำเร็จ
+    // เพิ่ม: ล้าง error cover เมื่อเลือกสำเร็จ
     setFieldErrors((prev) => ({ ...prev, cover: "" }));
   };
 
@@ -131,7 +131,7 @@ const CreatePost = () => {
       return;
     }
     setForm({ ...formData, file: f });
-    // ✅ เพิ่ม: ล้าง error file เมื่อเลือกสำเร็จ
+    // เพิ่ม: ล้าง error file เมื่อเลือกสำเร็จ
     setFieldErrors((prev) => ({ ...prev, file: "" }));
   };
 
@@ -144,7 +144,7 @@ const CreatePost = () => {
     if (coverPreviewUrl) URL.revokeObjectURL(coverPreviewUrl);
     setCoverPreviewUrl("");
     setForm((prev) => ({ ...prev, cover: null }));
-    // ✅ เพิ่ม: เคลียร์ error (กันค้าง)
+    // เพิ่ม: เคลียร์ error (กันค้าง)
     setFieldErrors((prev) => ({ ...prev, cover: "" }));
     if (coverInputRef.current) coverInputRef.current.value = "";
   };
@@ -156,7 +156,7 @@ const CreatePost = () => {
       e.stopPropagation();
     }
     setForm((prev) => ({ ...prev, file: null }));
-    // ✅ เพิ่ม: เคลียร์ error (กันค้าง)
+    // เพิ่ม: เคลียร์ error (กันค้าง)
     setFieldErrors((prev) => ({ ...prev, file: "" }));
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
@@ -166,7 +166,7 @@ const CreatePost = () => {
     e.preventDefault();
     setErrorMsg("");
 
-    // ✅ สำคัญ: ให้กดโพสต์ได้ แล้วค่อย validate เพื่อโชว์เตือนสีแดง
+    // สำคัญ: ให้กดโพสต์ได้ แล้วค่อย validate เพื่อโชว์เตือนสีแดง
     const ok = validateForm();
     if (!ok) {
       // setErrorMsg("กรุณากรอกข้อมูลที่จำเป็นให้ครบถ้วน");
@@ -254,7 +254,7 @@ const CreatePost = () => {
       cover: null,
     });
     setErrorMsg("");
-    // ✅ เพิ่ม: reset error รายช่อง
+    // เพิ่ม: reset error รายช่อง
     setFieldErrors({ title: "", cover: "", file: "", tags: "" });
 
     if (coverInputRef.current) coverInputRef.current.value = "";
@@ -283,7 +283,7 @@ const CreatePost = () => {
                 value={formData.title}
                 onChange={handleChange}
                 disabled={isLoading}
-                // ✅ เพิ่ม: ขอบแดงเมื่อผิด
+                // เพิ่ม: ขอบแดงเมื่อผิด
                 style={{
                   border: fieldErrors.title ? "1px solid #ff4d4f" : undefined,
                 }}
@@ -299,7 +299,7 @@ const CreatePost = () => {
               </select>
             </div>
 
-            {/* ✅ เพิ่ม: ข้อความ error ใต้ช่องหัวข้อ */}
+            {/* เพิ่ม: ข้อความ error ใต้ช่องหัวข้อ */}
             {fieldErrors.title ? (
               <div style={{ color: "#ff4d4f", marginTop: 6 }}>{fieldErrors.title}</div>
             ) : null}
@@ -317,7 +317,7 @@ const CreatePost = () => {
             </label>
             <div
               className="upload-box"
-              // ✅ เพิ่ม: ขอบแดงเมื่อผิด
+              // เพิ่ม: ขอบแดงเมื่อผิด
               style={{
                 border: fieldErrors.cover ? "1px solid #ff4d4f" : undefined,
               }}
@@ -371,7 +371,7 @@ const CreatePost = () => {
               </label>
             </div>
 
-            {/* ✅ เพิ่ม: ข้อความ error ใต้กล่องหน้าปก */}
+            {/* เพิ่ม: ข้อความ error ใต้กล่องหน้าปก */}
             {fieldErrors.cover ? (
               <div style={{ color: "#ff4d4f", marginTop: 6 }}>{fieldErrors.cover}</div>
             ) : null}
@@ -384,7 +384,7 @@ const CreatePost = () => {
             </label>
             <div
               className="upload-box"
-              // ✅ เพิ่ม: ขอบแดงเมื่อผิด
+              // เพิ่ม: ขอบแดงเมื่อผิด
               style={{
                 border: fieldErrors.file ? "1px solid #ff4d4f" : undefined,
               }}
@@ -428,7 +428,7 @@ const CreatePost = () => {
               </label>
             </div>
 
-            {/* ✅ เพิ่ม: ข้อความ error ใต้กล่องไฟล์ */}
+            {/* เพิ่ม: ข้อความ error ใต้กล่องไฟล์ */}
             {fieldErrors.file ? (
               <div style={{ color: "#ff4d4f", marginTop: 6 }}>{fieldErrors.file}</div>
             ) : null}
@@ -458,13 +458,13 @@ const CreatePost = () => {
               value={formData.tags}
               onChange={handleChange}
               disabled={isLoading}
-              // ✅ เพิ่ม: ขอบแดงเมื่อผิด
+              // เพิ่ม: ขอบแดงเมื่อผิด
               style={{
                 border: fieldErrors.tags ? "1px solid #ff4d4f" : undefined,
               }}
             />
 
-            {/* ✅ เพิ่ม: ข้อความ error ใต้ช่องแท็ก */}
+            {/* เพิ่ม: ข้อความ error ใต้ช่องแท็ก */}
             {fieldErrors.tags ? (
               <div style={{ color: "#ff4d4f", marginTop: 6 }}>{fieldErrors.tags}</div>
             ) : null}
@@ -483,7 +483,7 @@ const CreatePost = () => {
             <button
               type="submit"
               className="btn-submit"
-              // ✅ สำคัญ: ไม่ disable จากฟอร์มแล้ว เพื่อให้กดแล้วโชว์เตือนได้
+              // สำคัญ: ไม่ disable จากฟอร์มแล้ว เพื่อให้กดแล้วโชว์เตือนได้
               disabled={isLoading}
             >
               {isLoading ? "กำลังโพสต์..." : "โพสต์"}

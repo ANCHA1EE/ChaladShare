@@ -25,10 +25,10 @@ const Sidebar = () => {
     return "home";
   };
 
-  // ✅ ตั้งค่าเริ่มต้นให้ตรงกับ path ตั้งแต่ render แรก
+  // ตั้งค่าเริ่มต้นให้ตรงกับ path ตั้งแต่ render แรก
   const [activeKey, setActiveKey] = useState(() => getKeyFromPath(location.pathname));
 
-  // ✅ ซิงค์ก่อน paint เพื่อลด/หายอาการกระพริบ
+  // ซิงค์ก่อน paint เพื่อลด/หายอาการกระพริบ
   useLayoutEffect(() => {
     setActiveKey(getKeyFromPath(location.pathname));
   }, [location.pathname]);

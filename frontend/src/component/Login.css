@@ -26,7 +26,7 @@
   width: 380px;
   text-align: center;
 
-  position: relative; /* ✅ เพิ่มบรรทัดนี้ */
+  position: relative; 
 
 }
 
@@ -106,7 +106,7 @@
 }
 
 /* ปุ่ม login/register */
-/* ✅ ปุ่มหลัก (submit) เท่านั้น */
+/* ปุ่มหลัก (submit) เท่านั้น */
 .login-page .login-box button[type="submit"],
 .register-page .login-box button[type="submit"]{
   width: 100%;
@@ -128,7 +128,7 @@
 }
 
 
-/* ---- ลืมรหัสผ่าน (เฉพาะหน้า Login) ---- */
+/* ลืมรหัสผ่าน (เฉพาะหน้า Login)*/
 .login-page .forgot-password {
   width: 100%;
   /* ให้เท่ากับ input-group */

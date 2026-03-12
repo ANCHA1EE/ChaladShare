@@ -26,7 +26,7 @@ const Register = () => {
 
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  // ✅ เช็ค username ซ้ำ (ถ้า backend ยังไม่มี endpoint นี้ จะข้ามแบบไม่พัง)
+  // เช็ค username ซ้ำ (ถ้า backend ยังไม่มี endpoint นี้ จะข้ามแบบไม่พัง)
   // const checkUsernameAvailable = async (username) => {
   //   try {
   //     const res = await axios.get("/auth/check-username", {
@@ -70,7 +70,7 @@ const Register = () => {
       [e.target.name]: e.target.value,
     });
 
-    // ✅ พอเริ่มแก้ไขให้ล้าง error (เฉพาะ UI)
+    // พอเริ่มแก้ไขให้ล้าง error (เฉพาะ UI)
     if (error) setError("");
   };
 
@@ -116,7 +116,7 @@ const Register = () => {
     // try {
     //   setLoading(true);
 
-    // ✅ เช็ค username ซ้ำก่อน (ถ้ามี endpoint)
+    // เช็ค username ซ้ำก่อน (ถ้ามี endpoint)
     // const ok = await checkUsernameAvailable(username);
     // if (!ok) {
     //   setError("ชื่อผู้ใช้นี้มีคนใช้แล้ว กรุณาเปลี่ยนชื่อผู้ใช้");
@@ -125,7 +125,7 @@ const Register = () => {
 
     //     await axios.post(
     //       "/auth/register/request-otp",
-    //       { email, username }, // ✅ ส่ง username ไปด้วย
+    //       { email, username }, // ส่ง username ไปด้วย
     //       {
     //         headers: { "Content-Type": "application/json" },
     //         withCredentials: true,
@@ -157,7 +157,7 @@ const Register = () => {
     //       }
     //     }
 
-    //     // ✅ map ข้อความให้ชัดขึ้นตาม requirement
+    //     // map ข้อความให้ชัดขึ้นตาม requirement
     //     if (/email/i.test(msg) && /invalid|รูปแบบ/i.test(msg)) {
     //       setError("รูปแบบอีเมลไม่ถูกต้อง");
     //       return;
@@ -264,14 +264,14 @@ const Register = () => {
             <img src={logo} alt="Logo" />
             <h2>สมัครสมาชิก</h2>
 
-            {/* ✅ ปิด popup อังกฤษของ browser */}
+            {/* ปิด popup อังกฤษของ browser */}
             <form onSubmit={handleSubmit} noValidate>
               <div className="input-group">
                 <span className="icon">
                   <MdOutlineAlternateEmail />
                 </span>
                 <input
-                  type="text" // ✅ กัน tooltip ของ browser
+                  type="text" // กัน tooltip ของ browser
                   name="userEmail"
                   value={formData.userEmail}
                   onChange={handleChange}

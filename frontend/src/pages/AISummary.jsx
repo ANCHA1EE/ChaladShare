@@ -32,16 +32,16 @@ const PrintIcon = (props) => (
     <MdLocalPrintshop size={18} aria-hidden="true" {...props} />
 );
 
-// ✅ เรียกแบบเดิม: ยิง ngrok ตรง
+// เรียกแบบเดิม: ยิง ngrok ตรง
 const API_URL = "https://unsmarting-kamari-arbored.ngrok-free.dev";
 
-// ✅ คีย์สำหรับเก็บ state หน้านี้
+// คีย์สำหรับเก็บ state หน้านี้
 const LS_KEY = "chaladshare_ai_summary_state_v2";
 
-// ✅ จำกัดจำนวนหน้าสูงสุด
+// จำกัดจำนวนหน้าสูงสุด
 const MAX_PDF_PAGES = 30;
 
-// ✅ อ่านจำนวนหน้า PDF ด้วย pdf-lib
+// อ่านจำนวนหน้า PDF ด้วย pdf-lib
 const getPdfPageCount = async (file) => {
     const buffer = await file.arrayBuffer();
     const pdfDoc = await PDFDocument.load(buffer);
@@ -62,15 +62,15 @@ const AISummary = () => {
     const [statusMsg, setStatusMsg] = useState("");
     const [phase, setPhase] = useState("idle");
 
-    // ✅ เพิ่ม: เก็บชื่อไฟล์เดิมไว้โชว์ได้ (แต่ไม่ทำให้ hasFile=true หลังรีเฟรช)
+    // เพิ่ม: เก็บชื่อไฟล์เดิมไว้โชว์ได้ (แต่ไม่ทำให้ hasFile=true หลังรีเฟรช)
     const [restoredFileName, setRestoredFileName] = useState("");
 
-    // ✅ toast แจ้งเตือนแบบมินิมอล
+    // toast แจ้งเตือนแบบมินิมอล
     const [notice, setNotice] = useState({
         open: false,
         title: "",
         message: "",
-        type: "warning", // warning | error | success | info
+        type: "warning", // warning, error, success
     });
 
     const openNotice = (title, message, type = "warning") => {
@@ -131,7 +131,7 @@ const AISummary = () => {
     };
 
     const onPickFile = () => {
-        // ✅ ถ้ากำลังประมวลผล แล้วผู้ใช้กดเปลี่ยนไฟล์ -> abort แล้วให้เลือกไฟล์ใหม่ได้เลย
+        // ถ้ากำลังประมวลผล แล้วผู้ใช้กดเปลี่ยนไฟล์ -> abort แล้วให้เลือกไฟล์ใหม่ได้เลย
         if (isLoading) {
             resetToIdle();
             setSummaryHtml(""); // เริ่มใหม่ = เคลียร์ผลเดิม (เพราะ user จะอัปไฟล์ใหม่)
@@ -146,7 +146,7 @@ const AISummary = () => {
     };
 
     // ---------------------------
-    // ✅ Restore state เมื่อรีเฟรชหน้า
+    // Restore state เมื่อรีเฟรชหน้า
     // กติกา:
     // - ถ้าตอนนั้นกำลัง processing แล้วรีเฟรช => กลับไปเหมือนไม่อัปโหลด (ต้องอัปใหม่)
     // - ถ้า done แล้ว => ค้างผลสรุป + กดพิมพ์ได้
@@ -181,7 +181,7 @@ const AISummary = () => {
                 setPhase("done");
                 setIsLoading(false);
 
-                // ✅ สำคัญ: อย่า setFile เป็น restored (เพื่อให้ hasFile=false และกลับไปปุ่มอัปโหลด)
+                // สำคัญ: อย่า setFile เป็น restored (เพื่อให้ hasFile=false และกลับไปปุ่มอัปโหลด)
                 setFile(null);
                 setRestoredFileName(saved.fileName || "");
                 return;
@@ -194,10 +194,8 @@ const AISummary = () => {
         }
     }, []);
 
-    // ---------------------------
-    // ✅ Persist state
-    // - เก็บเฉพาะตอน done เท่านั้น (ค้างเฉพาะ “ผลลัพธ์”)
-    // ---------------------------
+    // Persist state
+    // เก็บเฉพาะตอน done เท่านั้น (ค้างเฉพาะ “ผลลัพธ์”)
     useEffect(() => {
         try {
             if (phase !== "done" || !summaryHtml) {
@@ -221,7 +219,7 @@ const AISummary = () => {
         }
     }, [phase, file, restoredFileName, summaryHtml, errorMsg, statusMsg]);
 
-    // ✅ ให้ข้อความ "สรุปเสร็จแล้ว" แสดง 5 วินาทีแล้วหายเอง
+    // ให้ข้อความ "สรุปเสร็จแล้ว" แสดง 5 วินาทีแล้วหายเอง
     useEffect(() => {
         if (statusMsg !== "สรุปเสร็จแล้ว") return;
 
@@ -241,7 +239,7 @@ const AISummary = () => {
         };
     }, [statusMsg]);
 
-    // ✅ cleanup timers ตอน component ถูกถอด
+    // cleanup timers ตอน component ถูกถอด
     useEffect(() => {
         return () => {
             if (statusTimerRef.current) {
@@ -401,7 +399,7 @@ const AISummary = () => {
         await uploadToAI(file);
     };
 
-    // ✅ พิมพ์: print ครั้งเดียว + บังคับสี/ไฮไลท์ออกตอนพิมพ์
+    // พิมพ์: print ครั้งเดียว + บังคับสี/ไฮไลท์ออกตอนพิมพ์
     const onPrint = () => {
         if (!summaryHtml) return;
 
@@ -418,7 +416,7 @@ const AISummary = () => {
         const w = iframe.contentWindow;
         const doc = w.document;
 
-        // ✅ กัน print ซ้ำ (แก้ปัญหา cancel 2 รอบ)
+        // กัน print ซ้ำ (แก้ปัญหา cancel 2 รอบ)
         let printed = false;
 
         doc.open();
@@ -544,7 +542,7 @@ const AISummary = () => {
                                     </div>
                                 )}
 
-                                {/* ✅ คำแนะนำ (อยู่นอกกรอบขาว + แสดงเสมอ) */}
+                                {/* คำแนะนำ (อยู่นอกกรอบขาว + แสดงเสมอ) */}
                                 <div className="ai-tip">
                                     <div className="ai-tip-title">คำแนะนำ</div>
                                     <div className="ai-tip-text">
