@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	minLikesForRecommend = 5
+	minLikesForRecommend = 1
 	seedLimit            = 5
 	candidateLimit       = 800
 	topK                 = 10
